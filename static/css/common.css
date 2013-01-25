@@ -1,0 +1,32 @@
+.common_layout_column{
+	float: left;
+}
+.common_page_title{
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #F8F8F8;
+	border: 1px solid #CCC;
+	line-height: 24px;
+	padding: 6px 10px;
+	border-radius: 5px;
+}
+.common_center_block{
+	width: 300px;
+	margin: 0 auto;
+}
+.common_success{
+	color: green;
+}
+.common_failed{
+	color: red;
+}
+.common_hint{
+	font-size: 16px;
+	vertical-align: top;
+	display: inline-block;
+	width: 80px;
+}
+.common_content{
+	display: inline-block;
+}

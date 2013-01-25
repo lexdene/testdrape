@@ -1,0 +1,92 @@
+<%
+	ctrl.addResByPath()
+	res.append(('css/common','css'))
+%>
+<div class="layout_head_line">
+	<span class="left_buttons">
+		<a href='${ROOT}/'>首页</a>
+		<a href='${ROOT}/problem/ProblemList'>练习区</a>
+		<a href='${ROOT}/discuss/List'>讨论区</a>
+		<a href='${ROOT}/test'>测试</a>
+	</span>
+	<span class="right_buttons">
+		<a href='${ROOT}/user/Register'>注册</a>
+		<a href='${ROOT}/user/Login'>登录</a>
+	</span>
+</div>
+<div class="body_block">
+	<div class="frontpage">
+		<div class="top_block frontpage_block">
+			<div class="top_img">
+				<div class="top_title_block">
+					<span class="top_title">欢迎来到 JDMD Online Judge</span>
+				</div>
+			</div>
+		</div>
+		<div class="navigation frontpage_block frontpage_content_block">
+			<div class="nav_block index">
+				<div class="nav_title">
+					<span>首页</span>
+				</div>
+				<div class="nav_content">
+					<a href='/'>首页</a>
+				</div>
+			</div>
+			<div class="nav_block user">
+				<div class="nav_title">
+					<span>用户</span>
+				</div>
+				<div class="nav_content">
+					<a href="/user/ChangePassword">修改密码</a>
+					<a href="/user/EditUserInfo">修改个人资料</a>
+					<a href="/user/Logout">退出</a>
+					<a href='/user/Register'>注册</a>
+					<a href='/user/Login'>登录</a>
+				</div>
+			</div>
+			<div class="nav_block practice">
+				<div class="nav_title">
+					<span>练习区</span>
+				</div>
+				<div class="nav_content">
+					<a href='/problem/ProblemList'>题目列表</a>
+					<a href='/problem/AddProblem'>添加题目</a>
+					<a href='/problem/SubmitList'>提交列表</a>
+				</div>
+			</div>
+			<div class="nav_block contest">
+				<div class="nav_title">
+					<span>比赛区</span>
+				</div>
+				<div class="nav_content">
+					<a href='#'>比赛列表</a>
+				</div>
+			</div>
+			<div class="nav_block discuss">
+				<div class="nav_title">
+					<span>讨论区</span>
+				</div>
+				<div class="nav_content">
+					<a href='/discuss/List'>所有主题</a>
+				</div>
+			</div>
+			<div class="nav_block admin">
+				<div class="nav_title">
+					<span>后台管理</span>
+				</div>
+				<div class="nav_content">
+					<a href='/admin/Permission'>权限管理</a>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="frontpage_body frontpage_block frontpage_content_block">
+			${body}
+		</div>
+		<div class="frontpage_bottom frontpage_block frontpage_content_block">
+			<div>大连理工大学电子信息与电气工程学部CPF科技协会JDMD工作室</div>
+			<div>本网站使用apache、cgi、Python、mako、mysql构建</div>
+			<div>美工由<b>李小胖</b>和<b>oahcil</b>提供</div>
+		</div>
+	</div>
+</div>

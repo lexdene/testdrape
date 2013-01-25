@@ -1,0 +1,10 @@
+.user_edituserinfo .avatar_block{
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+	background: black;
+}
+.user_edituserinfo .avatar_block .avatar{
+	max-width: 200px;
+	max-height: 200px;
+}

@@ -1,0 +1,8 @@
+AddHandler cgi-script .py
+AddType text/html .py
+DirectoryIndex cgi-main.py
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ cgi-main.py/$1 [L]
+</IfModule>

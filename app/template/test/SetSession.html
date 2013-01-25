@@ -1,0 +1,17 @@
+<form method="post">
+	<input name='key' />
+	<input name='value'  />
+	<input type='submit' />
+</form>
+
+<div>
+	% if msg == 'no':
+		<div>1</div>
+	% elif msg == 'success':
+		<div class="success">设置成功</div>
+		<div>${key} => ${value}</div>
+	% else:
+		<div class="failed">设置失败</div>
+		<div>${msg}</div>
+	% endif
+</div>
