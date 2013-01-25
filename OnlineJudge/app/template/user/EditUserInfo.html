@@ -1,0 +1,33 @@
+$def with(v)
+
+$v['res'].add('user/edituserinfo','css')
+$v['res'].add('user/edituserinfo')
+
+<div class="user_edituserinfo">
+	<div class="msg_block">
+		$if 'msg' in v:
+			<div class="msg">$v['msg']</div>
+	</div>
+	<div class="form_block">
+		<form method="post" enctype="multipart/form-data">
+			<div class="nickname">
+				<span class="h">昵称</span>
+				<span class="c"><input name="nickname" value="$v['userinfo']['nickname']" /></span>
+			</div>
+			<div class="avatar">
+				<span class="h">头像</span>
+				<span class="c"><input type="file" name="avatar" onchange="edituserinfo.avatarChanged(this);" /></span>
+			</div>
+			<div class="submit">
+				<span class="h"></span>
+				<span class="c"><input type="submit" name="submit" /></span>
+			</div>
+		</form>
+	</div>
+	<div class="avatar_preview">
+		<div class="h">头像预览</div>
+		<div class="avatar_block">
+			<img id="avatar" class="avatar" src="${v['userinfo']['avatar'] or '/static/image/meteor.jpg'}" alt="avatar" />
+		</div>
+	</div>
+</div>

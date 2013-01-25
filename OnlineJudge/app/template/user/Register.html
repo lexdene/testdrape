@@ -1,0 +1,37 @@
+$def with(v)
+
+$v['res'].add('jquery')
+$v['res'].add('jdmd_widget')
+$v['res'].add('jdmd_widget','css')
+
+$v['res'].add('user/register')
+
+<div class="user_login common_center_block">
+	<div class="common_page_title">注册</div>
+	<form action="/user/RegisterResult" method="post">
+		<div class="loginname">
+			<span class="common_hint">登录名</span>
+			<span class="common_content"><input name="loginname" class="jdmd_input" validate="notempty" /></span>
+		</div>
+		<div class="password">
+			<span class="common_hint">密码</span>
+			<span class="common_content"><input type="password" name="password" class="jdmd_input" validate="notempty" /></span>
+		</div>
+		<div class="repassword">
+			<span class="common_hint">重复密码</span>
+			<span class="common_content"><input type="password" name="repassword" class="jdmd_input" validate="notempty userdef:register.validate_repassword" /></span>
+		</div>
+		<div class="nickname">
+			<span class="common_hint">昵称</span>
+			<span class="common_content"><input name="nickname" class="jdmd_input" validate="notempty" /></span>
+		</div>
+		<div class="loginname">
+			<span class="common_hint">电子邮箱</span>
+			<span class="common_content"><input name="email" class="jdmd_input" validate="notempty" /></span>
+		</div>
+		<div class="submit">
+			<span class="common_hint"></span>
+			<span class="common_content"><input type="submit" value="注册" class="jdmd_validate_submit" /></span>
+		</div>
+	</form>
+</div>
