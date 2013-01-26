@@ -6,7 +6,7 @@ sys.path.append(app_root)
 import drape
 import sae
 
-app = drape.WsgiApplication()
+app = drape.SaeApplication()
 app.start()
 
 application = sae.create_wsgi_app(app)

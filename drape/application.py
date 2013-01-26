@@ -38,6 +38,9 @@ class Application(object):
 	def run(self):
 		try:
 			import config
+			
+			config.update(self.edconfig())
+			
 			c = config.config
 			
 			self.__request.run()
@@ -73,6 +76,9 @@ class Application(object):
 			self.__response.setBody(body)
 			self.__response.setStatus('500 Internal Server Error')
 		
+	def edconfig(self):
+		return dict()
+		
 	def apptype(self):
 		return self.__apptype
 		
@@ -97,7 +103,7 @@ class WsgiApplication(Application):
 		self.__apptype = 'wsgi'
 		
 	def start(self):
-		pass
+		return
 		
 	def __call__(self,environ, start_response):
 		self.env.update(environ)
@@ -117,3 +123,26 @@ class WsgiApplication(Application):
 		
 		ret = self.response().body().encode('utf-8')
 		return ret
+
+class SaeApplication(WsgiApplication):
+	def __init__(self):
+		super(SaeApplication,self).__init__()
+		self.__apptype = 'sae'
+		
+	def edconfig(self):
+		import sae.const
+		# sae.const.MYSQL_DB      # 数据库名
+		# sae.const.MYSQL_USER    # 用户名
+		# sae.const.MYSQL_PASS    # 密码
+		# sae.const.MYSQL_HOST    # 主库域名（可读写）
+		# sae.const.MYSQL_PORT    # 端口，类型为，请根据框架要求自行转换为int
+		# sae.const.MYSQL_HOST_S  # 从库域名（只读）
+		config={
+			'db' : {
+				'dbname' : sae.const.MYSQL_DB ,
+				'user' : sae.const.MYSQL_USER ,
+				'password' : sae.const.MYSQL_PASS ,
+				'host' : sae.const.MYSQL_HOST ,
+			}
+		}
+		return config
