@@ -1,6 +1,4 @@
-<%
-	ctrl.addResByPath('css')
-%>
+{{ do(ctrl.addResByPath('css') )}}
 
 <div class="test_layout">
 	<div class="common_center_block">
@@ -8,30 +6,30 @@
 	</div>
 	<div class="common_layout_column left_column">
 		<ul>
-			<li><a href="${ROOT}/test/Index">Index</a></li>
+			<li><a href="{{ROOT}}/test/Index">Index</a></li>
 			<li>数据库：
 				<ul>
-					<li><a href="${ROOT}/test/Db">Db</a></li>
-					<li><a href="${ROOT}/test/LinkedModel">LinkedModel</a></li>
+					<li><a href="{{ROOT}}/test/Db">Db</a></li>
+					<li><a href="{{ROOT}}/test/LinkedModel">LinkedModel</a></li>
 				</ul>
 			</li>
 			<li>cookie:
 				<ul>
-					<li><a href="${ROOT}/test/IterCookie">IterCookie</a></li>
-					<li><a href="${ROOT}/test/GetCookie">GetCookie</a></li>
-					<li><a href="${ROOT}/test/SetCookie">SetCookie</a></li>
+					<li><a href="{{ROOT}}/test/IterCookie">IterCookie</a></li>
+					<li><a href="{{ROOT}}/test/GetCookie">GetCookie</a></li>
+					<li><a href="{{ROOT}}/test/SetCookie">SetCookie</a></li>
 				</ul>
 			</li>
 			<li>session:
 				<ul>
-					<li><a href="${ROOT}/test/IterSession">IterSession</a></li>
-					<li><a href="${ROOT}/test/SetSession">SetSession</a></li>
+					<li><a href="{{ROOT}}/test/IterSession">IterSession</a></li>
+					<li><a href="{{ROOT}}/test/SetSession">SetSession</a></li>
 				</ul>
 			</li>
 		</ul>
 	</div>
 	<div class="common_layout_column right_column">
-		${body}
+		{{body}}
 	</div>
 	<div class="clear"></div>
 </div>
