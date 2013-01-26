@@ -30,7 +30,7 @@ class Controller(object):
 		pass
 		
 	def render(self):
-		pass
+		return ''
 		
 	def setVariable(self,name,value):
 		self.__vars[name] = value
