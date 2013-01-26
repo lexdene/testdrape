@@ -7,9 +7,9 @@
     <title>{{title}}</title>
     {% for reses in reslist -%}
       {%- for res in reses -%}
-        {%- if res[1] == 'js' -%}
+        {%- if res[1] == 'js' %}
           <script language="javascript" src="{{ROOT}}/static/{{res[0] }}.js?{{'.'.join(version.split('.')[0:3])}}"></script>
-        {% else -%}
+        {%- else %}
           <link rel="stylesheet" type="text/css" href="{{ROOT}}/static/{{res[0]}}.css?{{'.'.join(version.split('.')[0:3])}}" />
         {%- endif -%}
       {%- endfor -%}
