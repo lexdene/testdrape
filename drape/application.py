@@ -114,7 +114,12 @@ class WsgiApplication(Application):
 			path = self.env['PATH_INFO'],
 			root_path = self.env['SCRIPT_NAME'],
 			cookie = self.env.get('HTTP_COOKIE'),
-			remote_address = self.env['REMOTE_ADDR']
+			remote_address = self.env['REMOTE_ADDR'],
+			field_storage = cgi.FieldStorage(
+				fp=self.env['wsgi.input'],
+				environ=self.env,
+				keep_blank_values=True
+			)
 		))
 		self.run()
 		

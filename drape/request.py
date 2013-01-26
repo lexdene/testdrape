@@ -13,6 +13,7 @@ class Request(object):
 		self.__root_path = params.get('root_path')
 		self.__cookie = params.get('cookie')
 		self.__remote_address = params.get('remote_address')
+		self.__field_storage = params.get('field_storage')
 		
 	def run(self):
 		# controller path
@@ -45,7 +46,7 @@ class Request(object):
 		# path params
 		
 		# field storage
-		form = cgi.FieldStorage()
+		form = self.__field_storage
 		for i in form:
 			self.__paramDict[form[i].name] = form[i].value
 		
