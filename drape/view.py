@@ -24,4 +24,8 @@ class View(object):
 			import jinja2
 			env = jinja2.Environment(loader = jinja2.FileSystemLoader('app/template'))
 			template = env.get_template(template_filepath)
+			
+			def do(a):
+				return ''
+			vardict['do'] = do
 			return template.render(**vardict)

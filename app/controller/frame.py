@@ -18,8 +18,8 @@ class DefaultFrame(drape.NestingController):
 class HtmlBody(drape.NestingController):
 	def beforeChildProcess(self):
 		g = self.globalVars()
-		if 'res' not in g:
-			g['res'] = list()
+		g.clear()
+		g['res'] = list()
 		
 	def process(self):
 		# res
