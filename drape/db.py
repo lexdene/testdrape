@@ -18,6 +18,7 @@ class Db(object):
 		
 	def __init__(self):
 		dbconfig = config.config['db']
+		print dbconfig
 		if dbconfig['driver'] == 'mysql':
 			import MySQLdb
 			self.__driver = MySQLdb
