@@ -45,9 +45,9 @@ class Request(object):
 		# path params
 		
 		# field storage
-		# form = cgi.FieldStorage()
-		# for i in form:
-		#	self.__paramDict[form[i].name] = form[i].value
+		form = cgi.FieldStorage()
+		for i in form:
+			self.__paramDict[form[i].name] = form[i].value
 		
 		# cookie
 		
