@@ -154,7 +154,7 @@ class SaeApplication(WsgiApplication):
 			},
 			'session' : {
 				'store_type' : 'memcache',
-				'store_args' : {},
+				'store_args' : None,
 			}
 		}
 		return config
