@@ -37,5 +37,12 @@ class Db(object):
 		
 	def query(self,sql,params=None):
 		cursor=self.__conn.cursor(self.__driver.cursors.DictCursor)
-		n=cursor.execute(sql,params)
-		return cursor.fetchall()
+		with cursor:
+			n=cursor.execute(sql,params)
+			return cursor.fetchall()
+		
+	def execute(self,sql,params=None):
+		cursor=self.__conn.cursor(self.__driver.cursors.DictCursor)
+		with cursor:
+			n=cursor.execute(sql,params)
+			return cursor.fetchall()
