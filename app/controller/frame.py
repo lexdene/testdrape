@@ -24,7 +24,7 @@ class HtmlBody(drape.NestingController):
 	def process(self):
 		# res
 		g = self.globalVars()
-		self.setVariable('reslist',g['res'])
+		self.setVariable('reslist',reversed( g['res'] ))
 		
 		# title
 		sitename = u'JDMD Online Judge'

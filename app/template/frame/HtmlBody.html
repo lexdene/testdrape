@@ -5,7 +5,7 @@
     <link rel="icon" href="${ROOT}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon">
     <link rel="shortcut icon" href="${ROOT}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon">
     <title>{{title}}</title>
-    {% for reses in reversed(reslist) %}
+    {% for reses in reslist %}
       {% for res in reses %}
         {% if res[1] == 'js' %}
           <script language="javascript" src="${ROOT}/static/${res[0]}.js?${'.'.join(version.split('.')[0:3])}"></script>
