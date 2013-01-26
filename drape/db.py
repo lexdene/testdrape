@@ -23,7 +23,7 @@ class Db(object):
 			self.__driver = MySQLdb
 			self.__conn = MySQLdb.connect(
 				host = dbconfig['host'] ,
-				port = dbconfig['port'] ,
+				port = int(dbconfig['port']) ,
 				user = dbconfig['user'] ,
 				passwd = dbconfig['password'] ,
 				db = dbconfig['dbname'] ,
