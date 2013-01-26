@@ -22,6 +22,6 @@ class View(object):
 			return mytemplate.render_unicode(**vardict)
 		elif 'jinja2' == template_type:
 			import jinja2
-			env = jinja2.Environment(loader = FileSystemLoader('app/template'))
+			env = jinja2.Environment(loader = jinja2.FileSystemLoader('app/template'))
 			template = env.get_template(template_filepath)
 			return template.render(**vardict)
