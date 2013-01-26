@@ -65,6 +65,7 @@ class Application(object):
 				
 			self.__cookie.addToHeader(self.__response)
 		except Exception as e:
+			print e
 			self.__response.addHeader('Content-Type','text/plain')
 			
 			body = ''
