@@ -69,20 +69,21 @@ class MemStore(StoreBase):
 		return bool(data)
 		
 	def __getitem__(self, key):
-		now = time.time()
+		# now = time.time()
 		value = self.mc.get(key)
 		if not value:
 			raise KeyError
 		else:
-			value['attime'] = now
+			# value['attime'] = now
 			self.mc.set(key,value)
 			return value
 		
 	def __setitem__(self, key, value):
-		now = time.time()
-		value['attime'] = now
+		# now = time.time()
+		# value['attime'] = now
 		s = self.mc.get(key)
-		self.mc.set(key, value, web.config.session_parameters['timeout'])
+		# self.mc.set(key, value, web.config.session_parameters['timeout'])
+		self.mc.set( key, value, 3600*24 )
 		
 	def __delitem__(self, key):
 		self.mc.delete(key)
