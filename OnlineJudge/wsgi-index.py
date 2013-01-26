@@ -1,9 +1,0 @@
-import os,sys
-app_root = os.path.dirname(__file__)
-os.chdir(app_root)
-sys.path.append(app_root)
-
-import drape
-
-application = drape.WsgiApplication()
-application.start()

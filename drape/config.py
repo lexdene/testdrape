@@ -21,6 +21,9 @@ config={
 		'ignore_change_ip': True,
 		'secret_key': 'fLjUfxqXtfNoIldA0A0J',
 		'expired_message': 'Session expired',
+	},
+	'view' : {
+		'template_type' : 'jinja2',
 	}
 }
 
