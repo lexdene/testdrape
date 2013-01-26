@@ -8,7 +8,10 @@ def deepmerge(target,source):
 	for k in target :
 		if k in source:
 			if isinstance( target[k] ,dict ):
-				deepmerge(target[k],source[k])
+				if isinstance( source[k] , dict ):
+					deepmerge(target[k],source[k])
+				else:
+					target[k] = source[k]
 			else:
 				target[k] = source[k]
 
