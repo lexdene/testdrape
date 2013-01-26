@@ -55,7 +55,7 @@ class FileStore(StoreBase):
 		path = '%s/%s'%(self.__directory,key)
 		return os.path.isfile(path)
 
-class MemStore(web.session.Store):
+class MemStore(StoreBase):
 	def __init__(self):
 		import pylibmc
 		self.mc = pylibmc.Client()
