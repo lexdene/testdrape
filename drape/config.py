@@ -7,6 +7,7 @@ config={
 		'user' : '' ,
 		'password' : '' ,
 		'host' : '' ,
+		'port' : '' ,
 		'charset' : 'utf8' ,
 	},
 	'session' : {

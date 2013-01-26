@@ -145,6 +145,7 @@ class SaeApplication(WsgiApplication):
 				'user' : sae.const.MYSQL_USER ,
 				'password' : sae.const.MYSQL_PASS ,
 				'host' : sae.const.MYSQL_HOST ,
+				'port' : sae.const.MYSQL_PORT,
 			}
 		}
 		return config
