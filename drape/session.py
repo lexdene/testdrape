@@ -15,7 +15,11 @@ class StoreBase(object):
 		
 		if store_cls is None:
 			raise ConfigError('no such store type:%s'%store_type)
-		return store_cls(**store_args)
+		
+		if store_args is None:
+			return store_cls()
+		else:
+			return store_cls(**store_args)
 		
 	def __contains__(self, key):
 		raise NotImplementedError
