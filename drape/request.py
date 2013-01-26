@@ -1,5 +1,3 @@
-import cgi
-
 class Request(object):
 	def __init__(self):
 		self.__controllerPath = None

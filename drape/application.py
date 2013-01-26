@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os,sys
+import os,sys,cgi
 import controller
 import request
 import response
