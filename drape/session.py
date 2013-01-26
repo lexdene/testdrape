@@ -20,6 +20,11 @@ class StoreBase(object):
 			return store_cls()
 		else:
 			return store_cls(**store_args)
+	def get(self,key,value=None):
+		if key in self:
+			return self[key]
+		else:
+			return value
 		
 	def __contains__(self, key):
 		raise NotImplementedError
