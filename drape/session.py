@@ -10,6 +10,8 @@ class StoreBase(object):
 		store_cls = None
 		if 'file' == store_type:
 			store_cls = FileStore
+		elif 'memcache' == store_type:
+			store_cls = MemStore
 		
 		if store_cls is None:
 			raise ConfigError('no such store type:%s'%store_type)
@@ -52,6 +54,37 @@ class FileStore(StoreBase):
 	def __contains__(self,key):
 		path = '%s/%s'%(self.__directory,key)
 		return os.path.isfile(path)
+
+class MemStore(web.session.Store):
+	def __init__(self):
+		import pylibmc
+		self.mc = pylibmc.Client()
+		
+	def __contains__(self, key):
+		data = self.mc.get(key)
+		return bool(data)
+		
+	def __getitem__(self, key):
+		now = time.time()
+		value = self.mc.get(key)
+		if not value:
+			raise KeyError
+		else:
+			value['attime'] = now
+			self.mc.set(key,value)
+			return value
+		
+	def __setitem__(self, key, value):
+		now = time.time()
+		value['attime'] = now
+		s = self.mc.get(key)
+		self.mc.set(key, value, web.config.session_parameters['timeout'])
+		
+	def __delitem__(self, key):
+		self.mc.delete(key)
+		
+	def cleanup(self, timeout):
+		pass
 
 class Session(object):
 	def __init__(self,application):

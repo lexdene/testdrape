@@ -151,6 +151,9 @@ class SaeApplication(WsgiApplication):
 				'password' : sae.const.MYSQL_PASS ,
 				'host' : sae.const.MYSQL_HOST ,
 				'port' : sae.const.MYSQL_PORT,
+			},
+			'session' : {
+				'store_type' : 'memcache',
 			}
 		}
 		return config
