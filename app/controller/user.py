@@ -31,4 +31,6 @@ class ajaxLogin(drape.controller.jsonController):
 			self.setVariable('msg',u'登录名或密码错误')
 
 class Register(frame.DefaultFrame):
-	pass
+	def process(self):
+		self.initRes()
+		self.setTitle(u'注册')
