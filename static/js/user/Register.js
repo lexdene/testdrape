@@ -19,7 +19,7 @@ register.validate_repassword = function(o,val,vil){
 			if( false == v ){
 				return false;
 			}
-			var form = j(this);
+			var form = jq(this);
 			form.ajaxSubmit({
 				'success':function(){
 					alert('登录成功');
