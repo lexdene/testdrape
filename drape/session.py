@@ -20,6 +20,7 @@ class StoreBase(object):
 			return store_cls()
 		else:
 			return store_cls(**store_args)
+		
 	def get(self,key,value=None):
 		if key in self:
 			return self[key]
@@ -116,23 +117,28 @@ class Session(object):
 		
 		# protection against session_id tampering
 		if self.__session_id and not self.__valid_session_id(self.__session_id):
+			print "valid session id failed"
 			self.__session_id = None
 		
 		# need recreate data
 		if self.__session_id:
 			rawdata = self.__store.get(self.__session_id)
+			print "rawdata:",rawdata
 			if rawdata is None:
+				print "rawdata is None. recreate"
 				self.__initData(
 					aRequest.remote_address(),
 					config.config['session']['timeout']
 				)
 			else:
 				self.__data = self.__decodeData(rawdata)
+				print "decode data:",self.__data
 			
 			# validate address
 			# check expired time
 			if aRequest.remote_address() != self.get('_remote_address') \
 					or time.time() > self.get('_expired'):
+				print "address failed or expired. init data"
 				self.__initData(
 					aRequest.remote_address(),
 					config.config['session']['timeout']
@@ -140,6 +146,7 @@ class Session(object):
 			
 		# recreate session_id
 		if self.__session_id is None:
+			print "session id is None.recreate id and data"
 			self.__session_id = self.__recreate_session_id(
 				aRequest.remote_address(),
 				config.config['session']['secret_key']
@@ -149,6 +156,7 @@ class Session(object):
 				aRequest.remote_address(),
 				config.config['session']['timeout']
 			)
+			print "data:",self.__data
 		
 	def save(self):
 		rawdata = self.__encodeData()
