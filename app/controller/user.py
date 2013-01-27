@@ -29,3 +29,6 @@ class ajaxLogin(drape.controller.jsonController):
 		else:
 			self.setVariable('result','failed')
 			self.setVariable('msg',u'登录名或密码错误')
+
+class Register(frame.DefaultFrame):
+	pass
