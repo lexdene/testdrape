@@ -22,11 +22,11 @@ register.validate_repassword = function(o,val,vil){
 			var form = jq(this);
 			form.ajaxSubmit({
 				'success':function(){
-					alert('登录成功');
+					alert('注册成功');
 					// window.location = WEB_ROOT + form.attr('redirect');
 				},
 				'failed':function(msg){
-					alert('登录失败:'+msg);
+					alert('注册失败:'+msg);
 				}
 			});
 			return false;

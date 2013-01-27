@@ -2,6 +2,7 @@
 
 import frame
 import drape
+import drape.validate
 
 class Login(frame.DefaultFrame):
 	def process(self):
@@ -34,3 +35,103 @@ class Register(frame.DefaultFrame):
 	def process(self):
 		self.initRes()
 		self.setTitle(u'注册')
+
+class ajaxRegister(drape.controller.jsonController):
+	def process(self):
+		aParams = self.params()
+		
+		# validates
+		validates = [
+			dict(
+				key = 'loginname',
+				name = '登录名',
+				validates = [
+					('notempty',),
+					('len',4,20)
+				]
+			) ,
+			dict(
+				key = 'password',
+				name = '密码',
+				validates = [
+					('notempty',),
+					('len',4,20)
+				]
+			) ,
+			dict(
+				key = 'repassword',
+				name = '重复密码',
+				validates = [
+					('notempty',),
+					('equal','password','密码')
+				]
+			) ,
+			dict(
+				key = 'nickname',
+				name = '昵称',
+				validates = [
+					('notempty',),
+					('len',4,20)
+				]
+			) ,
+			dict(
+				key = 'nickname',
+				name = '昵称',
+				validates = [
+					('notempty',),
+					('len',4,20)
+				]
+			) ,
+			dict(
+				key = 'email',
+				name = '电子邮箱',
+				validates = [
+					('notempty',),
+					('email',)
+				]
+			) ,
+		]
+		
+		res = drape.validate.validate_params(aParams,validates)
+		if False == res['result']:
+			self.setVariable('result','failed')
+			self.setVariable('msg',res['msg'])
+			return
+		
+		aLogininfoModel = drape.model.LinkedModel('logininfo')
+		res = aLogininfoModel.where(dict(loginname=aParams.get('loginname'))).select()
+		if len(res) > 0:
+			self.setVariable('result','failed')
+			self.setVariable('msg','存在登录名相同的用户，无法注册')
+			return
+		
+		uid = aLogininfoModel.insert(dict(
+			loginname = aParams.get('loginname'),
+			password = drape.util.md5sum(aParams.get('password'))
+		))
+		self.setVariable('uid',uid)
+		
+		aUserinfoModel = drape.model.LinkedModel('userinfo')
+		aUserinfoModel.insert(dict(
+			uid = uid,
+			nickname = aParams.get('nickname'),
+			email = aParams.get('email')
+		))
+		
+		self.setVariable('result','success')
+		# repassword == password
+		# repassword = aParams('repassword')
+#        m = model.user.UserLogin.UserLogin()
+#        try:
+#            uid = m.insert({'loginname':i.loginname,'password':m.str_md5(i.password)})
+#        except IntegrityError:
+#            self.setVariable('msg','存在同名用户，无法重复注册')
+#        else:
+#            self.setVariable('msg','注册成功')
+#            
+#            mUserInfo = model.Model.Model('userinfo')
+#            mUserInfo.insert({
+#                'uid' : uid,
+#                'nickname' : i.nickname,
+#                'email' : i.email
+#            });

@@ -107,6 +107,29 @@ class LinkedModel(object):
 		aIter = self.__db.query(queryString)
 		return aIter[0]['count(*)']
 		
+	def insert(self,data):
+		columnList = list()
+		valueList = list()
+		for column,value in data.iteritems():
+			columnList.append(column)
+			if isinstance(value, (int, long, float)):
+				valueList.append('%d'%value)
+			elif isinstance(value,basestring):
+				valueList.append("'%s'"%value)
+			else:
+				raise TypeError('%s , %s'%(value,type(value).__name__))
+		
+		queryString = "insert into %(table)s (%(columns)s) values(%(values)s)"%{
+			'table' : self.__tableName,
+			'columns' : ','.join(columnList),
+			'values' : ','.join(valueList)
+		}
+		self.__clearLinkedData()
+		n = self.__db.execute(queryString)
+		insert_id = self.__db.insert_id()
+		self.__db.commit()
+		return insert_id
+		
 	def __appendLinkedData(self,name,value):
 		if not self.__linkedData.has_key(name):
 			self.__linkedData[name] = list()

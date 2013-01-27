@@ -41,6 +41,12 @@ class Db(object):
 		return cursor.fetchall()
 		
 	def execute(self,sql,params=None):
-		cursor=self.__conn.cursor(self.__driver.cursors.DictCursor)
-		n=cursor.execute(sql,params)
-		return cursor.fetchall()
+		cursor=self.__conn.cursor()
+		n = cursor.execute(sql,params)
+		return n
+		
+	def insert_id(self):
+		return self.__conn.insert_id()
+		
+	def commit(self):
+		return self.__conn.commit()

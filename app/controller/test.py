@@ -34,13 +34,13 @@ class Db(TestFrame):
 class LinkedModel(TestFrame):
 	def __init__(self,path):
 		super(LinkedModel,self).__init__(path)
-		self.setTemplatePath('/test/Db')
 		
 	def process(self):
 		aParams = self.params()
-		aModel = drape.LinkedModel('userinfo')
+		aModel = drape.LinkedModel('logininfo')
 		res = aModel \
-			.where(dict(uid=aParams.get('uid',1))) \
+			.alias('li') \
+			.join('userinfo','ui','ui.uid=li.uid') \
 			.select()
 		self.setVariable('userlist',res)
 

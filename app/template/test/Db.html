@@ -2,6 +2,6 @@
 	<input name="uid" />
 	<input type="submit" />
 </form>
-% for user in userlist:
-	<div>${user['nickname']}</div>
-% endfor
+{% for user in userlist %}
+	<div>{{ user['ui.nickname'] }}</div>
+{% endfor %}
