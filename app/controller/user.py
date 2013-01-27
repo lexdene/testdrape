@@ -8,7 +8,9 @@ class Login(frame.DefaultFrame):
 		self.initRes()
 		self.setTitle(u'登录')
 		
-		redirect = self.param('redirect','/')
+		aParams = self.params()
+		
+		redirect = aParams.get('redirect','/')
 		self.setVariable('redirect',redirect)
 
 class ajaxLogin(drape.controller.jsonController):
