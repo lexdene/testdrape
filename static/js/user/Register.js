@@ -30,6 +30,6 @@ register.validate_repassword = function(o,val,vil){
 				}
 			});
 			return false;
-		}
+		});
 	});
 })(jQuery,jdmd_widget);
