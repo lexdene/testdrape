@@ -12,8 +12,8 @@ register.validate_repassword = function(o,val,vil){
 		}
 	}
 }
-(function(j,jw){
-	j(function(){
+(function(jq,jw){
+	jq(function(){
 		jq('#register_form').submit(function(){
 			var v = jdmd_widget.validate_and_error_all( this );
 			if( false == v ){
