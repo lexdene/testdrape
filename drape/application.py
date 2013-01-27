@@ -48,6 +48,9 @@ class Application(object):
 			self.__request.run()
 			self.__cookie = cookie.Cookie(self)
 			
+			# clear session for wsgi
+			self.__session = None
+			
 			self.response().addHeader('Content-Type','text/html; charset=utf-8')
 			
 			path = self.__request.controllerPath()
