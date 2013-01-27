@@ -14,7 +14,7 @@ register.validate_repassword = function(o,val,vil){
 }
 (function(j,jw){
 	j(function(){
-		document.getElementById('register_form').onsubmit=function(){
+		jq('#register_form').submit(function(){
 			var v = jdmd_widget.validate_and_error_all( this );
 			if( false == v ){
 				return false;
