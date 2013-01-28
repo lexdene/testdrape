@@ -8,8 +8,13 @@
 		<a href='{{ROOT}}/test'>测试</a>
 	</span>
 	<span class="right_buttons">
-		<a href='{{ROOT}}/user/Register'>注册</a>
-		<a href='{{ROOT}}/user/Login'>登录</a>
+		{% if uid > 0 %}
+			<a href="{{ROOT}}/userinfo/Index/id/{{userinfo['uid']}}">{{userinfo['nickname']}}</a>
+			<a href="{{ROOT}}/user/Logout">注销</a>
+		{% else %}
+			<a href='{{ROOT}}/user/Register'>注册</a>
+			<a href='{{ROOT}}/user/Login'>登录</a>
+		{% endif %}
 	</span>
 </div>
 <div class="body_block">

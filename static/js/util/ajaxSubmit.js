@@ -60,6 +60,7 @@
 			if( typeof options.failed == 'function' ){
 				options.failed('network error');
 			}
+			inputlist.attr('disabled',false);
 		})
 	}
 	j.fn.extend({

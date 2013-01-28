@@ -94,6 +94,13 @@ class LinkedModel(object):
 		self.__clearLinkedData()
 		return self.__db.query(queryString)
 		
+	def find(self):
+		res = self.limit(1).select()
+		if len(res) < 1:
+			return None
+		else:
+			return res[0]
+		
 	def count(self):
 		tableString = self.__buildTableString()
 		joinString = self.__buildJoinString()

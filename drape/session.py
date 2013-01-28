@@ -178,6 +178,11 @@ class Session(object):
 				del self.__data[key]
 		else:
 			self.__data[key] = value
+		
+	def remove(self,key):
+		if key in self.__data:
+			del self.__data[key]
+		
 	def __valid_session_id(self, session_id):
 		rx = re.compile('^[0-9a-fA-F]+$')
 		return rx.match(session_id)

@@ -44,3 +44,12 @@ class HtmlBody(drape.NestingController):
 class Layout(drape.NestingController):
 	def process(self):
 		self.initRes()
+		
+		aSession = self.session()
+		uid = aSession.get('uid',-1)
+		self.setVariable('uid',uid)
+		
+		if uid > 0:
+			aUserinfoModel = drape.LinkedModel('userinfo')
+			userinfo = aUserinfoModel.where(dict(uid=uid)).find()
+			self.setVariable('userinfo',userinfo)

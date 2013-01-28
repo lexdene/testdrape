@@ -15,7 +15,7 @@ register.validate_repassword = function(o,val,vil){
 (function(jq,jw){
 	jq(function(){
 		jq('#register_form').submit(function(){
-			var v = jdmd_widget.validate_and_error_all( this );
+			var v = jw.validate_and_error_all( this );
 			if( false == v ){
 				return false;
 			}
@@ -23,7 +23,7 @@ register.validate_repassword = function(o,val,vil){
 			form.ajaxSubmit({
 				'success':function(){
 					alert('注册成功');
-					// window.location = WEB_ROOT + form.attr('redirect');
+					window.location = WEB_ROOT + form.attr('redirect');
 				},
 				'failed':function(msg){
 					alert('注册失败:'+msg);

@@ -10,31 +10,67 @@ class Login(frame.DefaultFrame):
 		self.setTitle(u'登录')
 		
 		aParams = self.params()
-		
 		redirect = aParams.get('redirect','/')
 		self.setVariable('redirect',redirect)
 
 class ajaxLogin(drape.controller.jsonController):
 	def process(self):
-		aLoginModel = drape.LinkedModel('logininfo')
+		aParams = self.params()
 		
+		# validates
+		validates = [
+			dict(
+				key = 'loginname',
+				name = '登录名',
+				validates = [
+					('notempty',),
+					('len',4,20)
+				]
+			) ,
+			dict(
+				key = 'password',
+				name = '密码',
+				validates = [
+					('notempty',),
+					('len',4,20)
+				]
+			) ,
+		]
+		res = drape.validate.validate_params(aParams,validates)
+		if False == res['result']:
+			self.setVariable('result','failed')
+			self.setVariable('msg',res['msg'])
+			return
+		
+		aLoginModel = drape.LinkedModel('logininfo')
 		res = aLoginModel \
 			.where(dict(
-				loginname=self.param('loginname')
+				loginname=aParams['loginname']
 			)) \
-			.select()
+			.find()
 		
-		if len(res) > 0 and \
-			res[0]['password'] == drape.util.md5sum(self.param('password','')):
-			self.setVariable('result','success')
-		else:
+		if res is None:
 			self.setVariable('result','failed')
-			self.setVariable('msg',u'登录名或密码错误')
+			self.setVariable('msg',u'登录名不存在')
+			return
+		elif res['password'] != drape.util.md5sum(aParams['password']):
+			self.setVariable('result','failed')
+			self.setVariable('msg',u'密码错误')
+			return
+		else:
+			self.setVariable('result','success')
+			
+			aSession = self.session()
+			aSession.set('uid',res['uid'])
 
 class Register(frame.DefaultFrame):
 	def process(self):
 		self.initRes()
 		self.setTitle(u'注册')
+		
+		aParams = self.params()
+		redirect = aParams.get('redirect','/')
+		self.setVariable('redirect',redirect)
 
 class ajaxRegister(drape.controller.jsonController):
 	def process(self):
@@ -119,3 +155,15 @@ class ajaxRegister(drape.controller.jsonController):
 		))
 		
 		self.setVariable('result','success')
+
+class Logout(frame.DefaultFrame):
+	def process(self):
+		self.initRes()
+		self.setTitle(u'退出登录')
+		
+		aSession = self.session()
+		aSession.remove('uid')
+		
+		aParams = self.params()
+		redirect = aParams.get('redirect','/')
+		self.setVariable('redirect',redirect)
