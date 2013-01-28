@@ -29,7 +29,7 @@ frontpage.getBrowserVersion = function(){
 
 
 frontpage.fuckIE = function(){
-	if( window.location.pathname != '/FuckIE' ){
-		window.location="/FuckIE";
+	if( window.location.pathname != WEB_ROOT+'/fuckie' ){
+		window.location = WEB_ROOT+'/fuckie';
 	}
 }
