@@ -8,14 +8,6 @@ class ConfigError(DbError):
 	pass
 
 class Db(object):
-	__singleton = None
-	
-	@classmethod
-	def singleton(cls):
-		if cls.__singleton is None:
-			cls.__singleton = cls()
-		return cls.__singleton
-		
 	def __init__(self):
 		dbconfig = config.config['db']
 		if dbconfig['driver'] == 'mysql':

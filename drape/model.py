@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import db
+import application
 
 class LinkedModel(object):
 	__cache = {}
 	def __init__(self,sTableName):
 		self.__tableName = sTableName
-		self.__db =db.Db.singleton()
+		# self.__db = db.Db.singleton()
+		self.__db = application.Application.singleton().db()
 		
 		# linked data
 		self.__clearLinkedData()

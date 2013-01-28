@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import os,sys,cgi
-import controller
+# system import
+import os,sys,cgi,traceback
+
+# drape import
+import controller,db
 import request
 import response
-import traceback
 import cookie
 import session
 
@@ -48,8 +50,9 @@ class Application(object):
 			self.__request.run()
 			self.__cookie = cookie.Cookie(self)
 			
-			# clear session for wsgi
+			# clear for wsgi
 			self.__session = None
+			self.__db = None
 			
 			self.response().addHeader('Content-Type','text/html; charset=utf-8')
 			
@@ -102,6 +105,11 @@ class Application(object):
 			self.__session = session.Session(self)
 			self.__session.start()
 		return self.__session
+		
+	def db(self):
+		if self.__db is None:
+			self.__db = db.Db()
+		return self.__db
 
 class WsgiApplication(Application):
 	def __init__(self):
