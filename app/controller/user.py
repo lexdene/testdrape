@@ -119,19 +119,3 @@ class ajaxRegister(drape.controller.jsonController):
 		))
 		
 		self.setVariable('result','success')
-		# repassword == password
-		# repassword = aParams('repassword')
-#        m = model.user.UserLogin.UserLogin()
-#        try:
-#            uid = m.insert({'loginname':i.loginname,'password':m.str_md5(i.password)})
-#        except IntegrityError:
-#            self.setVariable('msg','存在同名用户，无法重复注册')
-#        else:
-#            self.setVariable('msg','注册成功')
-#            
-#            mUserInfo = model.Model.Model('userinfo')
-#            mUserInfo.insert({
-#                'uid' : uid,
-#                'nickname' : i.nickname,
-#                'email' : i.email
-#            });

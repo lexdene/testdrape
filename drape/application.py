@@ -137,13 +137,16 @@ class WsgiApplication(Application):
 		)
 		self.run(environ,params)
 		
+		ret = self.response().body().encode('utf-8')
+		# ret = self.response().body()
+		self.response().addHeader('Content-Length',str(len(ret)))
+		
 		write = start_response(
 			self.response().status(),
 			self.response().headers()
 		)
 		
-		ret = self.response().body().encode('utf-8')
-		return ret
+		return [ret]
 
 class SaeApplication(WsgiApplication):
 	def __init__(self):
