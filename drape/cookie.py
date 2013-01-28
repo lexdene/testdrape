@@ -5,7 +5,8 @@ class Cookie(object):
 		self.__application = application
 		self.__requestdata = dict()
 		self.__addCookies = list()
-		
+	
+	def run(self):
 		cookiestr = self.__application.request().cookie()
 		if not cookiestr is None:
 			partList = cookiestr.split(';')

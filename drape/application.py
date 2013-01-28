@@ -4,7 +4,7 @@
 import os,sys,cgi,traceback
 
 # drape import
-import controller,db
+import controller,db,config
 import request
 import response
 import cookie
@@ -26,33 +26,37 @@ class Application(object):
 		Application.__singleton = singleton
 		
 	def __init__(self):
-		self.__request = None
-		self.__session = None
 		self.__apptype = 'cgi'
+		self.setSingleton(self)
+		self.systemInit()
+		
+	def systemInit(self):
+		'''
+		系统级初始化，
+		这函数理论上讲应该仅在开机/启动服务器的时候执行一次，以后就不再执行了。
+		'''
+		config.update(self.edconfig())
+		
+	def requestInit(self):
+		'''
+		请求级初始化，
+		这函数在每次请求的时候都会执行一次
+		'''
 		self.__request = request.Request()
 		self.__response = response.Response()
-		self.env = dict()
-		for i in os.environ:
-			self.env[i] = os.environ[i]
-		self.setSingleton(self)
+		self.__session = None
+		self.__cookie = cookie.Cookie(self)
+		self.__db = None
 		
 	def start(self):
 		self.run()
 		
-	def run(self):
+	def run(self,environ,params):
 		try:
-			import config
+			self.requestInit()
 			
-			config.update(self.edconfig())
-			
-			c = config.config
-			
-			self.__request.run()
-			self.__cookie = cookie.Cookie(self)
-			
-			# clear for wsgi
-			self.__session = None
-			self.__db = None
+			self.__request.run(params)
+			self.__cookie.run()
 			
 			self.response().addHeader('Content-Type','text/html; charset=utf-8')
 			
@@ -77,7 +81,7 @@ class Application(object):
 			body += 'controllerPath:%s\n'%self.__request.controllerPath()
 			body += traceback.format_exc()
 			body += "environ:\n"
-			env = self.env
+			env = environ
 			for i in env:
 				body += "%s => %s\n"%(i,env[i])
 			
@@ -120,20 +124,18 @@ class WsgiApplication(Application):
 		return
 		
 	def __call__(self,environ, start_response):
-		self.env.update(environ)
-		
-		self.request().setParams(dict(
-			path = self.env['PATH_INFO'],
-			root_path = self.env['SCRIPT_NAME'],
-			cookie = self.env.get('HTTP_COOKIE'),
-			remote_address = self.env['REMOTE_ADDR'],
+		params = dict(
+			path = environ['PATH_INFO'],
+			root_path = environ['SCRIPT_NAME'],
+			cookie = environ.get('HTTP_COOKIE'),
+			remote_address = environ['REMOTE_ADDR'],
 			field_storage = cgi.FieldStorage(
-				fp=self.env['wsgi.input'],
-				environ=self.env,
+				fp=environ['wsgi.input'],
+				environ=environ,
 				keep_blank_values=True
 			)
-		))
-		self.run()
+		)
+		self.run(environ,params)
 		
 		write = start_response(
 			self.response().status(),

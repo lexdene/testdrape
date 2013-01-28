@@ -1,26 +1,10 @@
 class Request(object):
 	def __init__(self):
 		self.__controllerPath = None
-		# self.path = '/'
-		# self.script_name = '/'
-		# self.cookie = None
-		# self.remote_address = '127.0.0.1'
 		
-	def setParams(self,params):
-		self.__path = params.get('path')
-		self.__root_path = params.get('root_path')
-		self.__cookie = params.get('cookie')
-		self.__remote_address = params.get('remote_address')
-		self.__field_storage = params.get('field_storage')
-		
-	def run(self):
+	def run(self,params):
 		# controller path
-		#if os.environ.has_key('PATH_INFO'):
-		#	path = os.environ['PATH_INFO']
-		#else:
-		#	path = '/'
-		
-		x = self.__path.split('/')
+		x = params.get('path').split('/')
 		if len(x) > 1 and x[1] != '':
 			mod = x[1]
 		else:
@@ -33,26 +17,19 @@ class Request(object):
 		
 		self.__controllerPath = '/%s/%s'%(mod,cls)
 		
-		# root path
-		# x = self.__script_name.split('/')
-		
-		# self.__root_path = '/'.join(x[0:-1])
-		
 		# params
 		self.__paramDict = dict()
 		
 		# path params
 		
 		# field storage
-		form = self.__field_storage
+		form = params.get('field_storage')
 		for i in form:
 			self.__paramDict[form[i].name] = form[i].value
 		
-		# cookie
-		
-		
-		# remote address
-		# self.__remote_address = os.environ['REMOTE_ADDR']
+		self.__root_path = params.get('root_path')
+		self.__cookie = params.get('cookie')
+		self.__remote_address = params.get('remote_address')
 		
 	def controllerPath(self):
 		return self.__controllerPath
