@@ -137,9 +137,15 @@ class WsgiApplication(Application):
 		)
 		self.run(environ,params)
 		
-		ret = self.response().body().encode('utf-8')
-		# ret = self.response().body()
-		self.response().addHeader('Content-Length',str(len(ret)))
+		ret = self.response().body()
+		if isinstance(ret, unicode):
+			ret = ret.encode('utf-8')
+			self.response().addHeader('Content-Length',str(len(ret)))
+		elif isinstance(ret, str):
+			ret = ret
+			self.response().addHeader('Content-Length',str(len(ret)))
+		else:
+			ret = str(ret)
 		
 		write = start_response(
 			self.response().status(),

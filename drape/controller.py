@@ -57,6 +57,9 @@ class Controller(object):
 		
 	def session(self):
 		return application.Application.singleton().session()
+		
+	def addHeader(self,key,value):
+		application.Application.singleton().response().addHeader(key,value)
 
 class ViewController(Controller):
 	def __init__(self,path,templatePath=None):
