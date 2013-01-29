@@ -1,25 +1,10 @@
-var register = {};
-register.validate_repassword = function(o,val,vil){
-	var password = jQuery(o).closest('form').find('input[name=password]').val();
-	if( password == val ){
-		return {
-			result:true
-		}
-	}else{
-		return {
-			result:false,
-			msg:'两次输入密码不一致',
-		}
+(function(jq){
+	function refresh_valcode_img(){
+		jq('.common_valcode_img').refresh();
 	}
-};
-(function(jq,jw){
 	jq(function(){
-		jq('.valcode_btn').click(jw.refresh_valcode_img);
+		jq('.valcode_btn').click(refresh_valcode_img);
 		jq('#register_form').submit(function(){
-			var v = jw.validate_and_error_all( this );
-			if( false == v ){
-				return false;
-			}
 			var form = jq(this);
 			form.ajaxSubmit({
 				'success':function(){
@@ -28,11 +13,68 @@ register.validate_repassword = function(o,val,vil){
 				},
 				'failed':function(msg){
 					alert('注册失败:'+msg);
+				},
+				'validate':{
+					'form_area':[
+						{
+							'key':'loginname',
+							'name':'登录名',
+							'validates' : [
+								[ 'notempty' ],
+								[ 'len',4,20 ]
+							]
+						},
+						{
+							'key' : 'password',
+							'name' : '密码',
+							'validates' : [
+								[ 'notempty' ],
+								[ 'len',4,20 ]
+							]
+						},
+						{
+							'key' : 'repassword',
+							'name' : '重复密码',
+							'validates' : [
+								[ 'notempty' ],
+								['equal','password','密码']
+							]
+						},
+						{
+							'key' : 'valcode',
+							'name' : '验证码',
+							'validates' : [
+								[ 'notempty' ],
+								[ 'len',4,4 ]
+							]
+						},
+						{
+							'key' : 'nickname',
+							'name' : '昵称',
+							'validates' : [
+								[ 'notempty' ],
+								[ 'len',4,20 ]
+							]
+						},
+						{
+							'key' : 'email',
+							'name' : '电子邮箱',
+							'validates' : [
+								[ 'notempty' ],
+								[ 'len',4,50 ]
+							]
+						},
+					],
+					'callback':function(result,msg){
+						if( ! result ){
+							alert(msg);
+						}
+					}
 				}
 			});
 			form.find('input[name=valcode]').val('');
-			jw.refresh_valcode_img();
+			refresh_valcode_img();
 			return false;
 		});
 	});
-})(jQuery,jdmd_widget);
+})(jQuery);
