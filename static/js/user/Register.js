@@ -14,6 +14,7 @@ register.validate_repassword = function(o,val,vil){
 };
 (function(jq,jw){
 	jq(function(){
+		jq('.valcode_btn').click(jw.refresh_valcode_img);
 		jq('#register_form').submit(function(){
 			var v = jw.validate_and_error_all( this );
 			if( false == v ){
@@ -29,6 +30,8 @@ register.validate_repassword = function(o,val,vil){
 					alert('注册失败:'+msg);
 				}
 			});
+			form.find('input[name=valcode]').val('');
+			jw.refresh_valcode_img();
 			return false;
 		});
 	});

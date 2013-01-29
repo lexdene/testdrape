@@ -1,5 +1,6 @@
 (function(j,jw){
 	j(function(){
+		j('.valcode_btn').click(jw.refresh_valcode_img);
 		document.getElementById('submit_form').onsubmit=function(){
 			var v = jdmd_widget.validate_and_error_all( this );
 			if( false == v ){
@@ -15,6 +16,8 @@
 					alert('登录失败:'+msg);
 				}
 			});
+			form.find('input[name=valcode]').val('');
+			jw.refresh_valcode_img();
 			return false;
 		}
 	});

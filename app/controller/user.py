@@ -3,6 +3,7 @@
 import frame
 import drape
 import drape.validate
+import validatecode
 
 class Login(frame.DefaultFrame):
 	def process(self):
@@ -16,6 +17,14 @@ class Login(frame.DefaultFrame):
 class ajaxLogin(drape.controller.jsonController):
 	def process(self):
 		aParams = self.params()
+		
+		if not validatecode.validate(
+			self.params().get('valcode'),
+			self.session()
+		):
+			self.setVariable('result','failed')
+			self.setVariable('msg',u'验证码错误')
+			return
 		
 		# validates
 		validates = [
@@ -75,6 +84,14 @@ class Register(frame.DefaultFrame):
 class ajaxRegister(drape.controller.jsonController):
 	def process(self):
 		aParams = self.params()
+		
+		if not validatecode.validate(
+			self.params().get('valcode'),
+			self.session()
+		):
+			self.setVariable('result','failed')
+			self.setVariable('msg',u'验证码错误')
+			return
 		
 		# validates
 		validates = [

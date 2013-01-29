@@ -121,3 +121,11 @@ jdmd_widget.redirect=function(o){
 		1000
 	);
 }
+
+jdmd_widget.refresh_valcode_img = function(){
+	var imgobj = jQuery('.common_valcode_img');
+	var src = imgobj.attr('src');
+	var cleansrc = src.split('?')[0];
+	var newsrc = cleansrc+'?t='+new Date().getTime();
+	imgobj.attr('src',newsrc);
+}
