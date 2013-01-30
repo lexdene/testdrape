@@ -37,6 +37,9 @@ class LinkedModel(TestFrame):
 			.alias('li') \
 			.join('userinfo','ui','ui.uid=li.uid') \
 			.select()
+		for u in res:
+			u['ui.email'] = str(u['ui.email']).replace("@", " at ")
+			u['ui.email'] = str(u['ui.email']).replace(".", " dot ")
 		self.setVariable('userlist',res)
 
 class IterCookie(TestFrame):
