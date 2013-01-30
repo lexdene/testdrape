@@ -27,6 +27,12 @@ class Request(object):
 		self.__paramDict = dict()
 		
 		# path params
+		i = 3
+		while i+1 < len(x):
+			key = x[i]
+			value = x[i+1]
+			self.__paramDict[ key ] = value
+			i = i+2
 		
 		# field storage
 		form = params.get('field_storage')

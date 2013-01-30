@@ -1,0 +1,69 @@
+{{ do( ctrl.addResByPath() )}}
+
+<div class="discuss_topic">
+	<div class="topic_headblock">
+		<span class="topic_title">{{topicInfo['title']}}</span>
+	</div>
+	<div class="building">
+		<div class="floor">
+			<div class="common_layout_column floor_left_column">
+				<div class="user_panel">
+					<div class="avatar_block">
+						<img class="avatar" src="{{topicInfo['ui.avatar'] if topicInfo['ui.avatar'] else ROOT+'/static/image/meteor.jpg'}}" alt="avatar" />
+					</div>
+					<div class="nickname">
+						<a href="/user/Homepage?uid={{topicInfo['ui.uid']}}">
+							{{topicInfo['ui.nickname']}}
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="common_layout_column floor_right_column">
+				<div class="floor_text">{{topicInfo['text']}}</div>
+				<div class="floor_right_bottom">
+					<div class="floor_count">1楼</div>
+					<div class="floor_time">{{topicInfo['ctime_str']}}</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{% for reply in aReplyIter %}
+			<div class="floor">
+				<div class="common_layout_column floor_left_column">
+					<div class="user_panel">
+						<div class="avatar_block">
+							<img class="avatar" src="{{topicInfo['ui.avatar'] if topicInfo['ui.avatar'] else ROOT+'/static/image/meteor.jpg'}}" alt="avatar" />
+						</div>
+						<div class="nickname">
+							<a href="/user/Homepage?uid={{reply['ui.uid']}}">
+								{{reply['ui.nickname']}}
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="common_layout_column floor_right_column">
+					<div class="floor_text">{{reply['text']}}</div>
+					<div class="floor_right_bottom">
+						<div class="floor_count">{{ reply['floor'] }}楼</div>
+						<div class="floor_time">{{ reply['ctime_str'] }}</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		{% endfor %}
+	</div>
+	<div class="reply_block">
+		<form id="reply_form"
+			action='{{ROOT}}/discuss/ajaxPostReply'
+			method='post'
+			onsubmit="return false;">
+			<input type='hidden' name='tid' value='{{topicInfo['id']}}' />
+			<input type='hidden' name='reply_to_id' value='-1' />
+			<div class="h">发表回复</div>
+			<div>
+				<textarea name="text" placeholder="请输入回复内容..."></textarea>
+			</div>
+			<input type='submit' value='发送' />
+		</form>
+	</div>
+</div>

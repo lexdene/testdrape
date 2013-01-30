@@ -36,6 +36,14 @@ def validate_params(params,validateList):
 						result = False,
 						msg = u'%s不符合E-mail格式'%(name)
 					)
+			elif 'int' == method:
+				re_num = r'^-?[0-9]*$'
+				reg = re.compile(re_num)
+				if not reg.match(str(value)):
+					return dict(
+						result = False,
+						msg = u'%s不符合整数格式'%(name)
+					)
 			else:
 				raise KeyError(method)
 	return dict(

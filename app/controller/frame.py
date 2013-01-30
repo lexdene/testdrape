@@ -11,6 +11,9 @@ class DefaultFrame(drape.NestingController):
 		
 	def notLogin(self):
 		self.icRedirect('/frame/NotLogin')
+		
+	def Error(self,error):
+		self.icRedirect('/frame/Error',error)
 
 class HtmlBody(drape.NestingController):
 	def beforeChildProcess(self):
@@ -61,3 +64,7 @@ class NotLogin(DefaultFrame):
 		urlPath = self.request().urlPath()
 		self.setVariable('urlPath',urlPath)
 		self.setVariable('urlquote',drape.util.urlquote(urlPath))
+
+class Error(DefaultFrame):
+	def process(self):
+		self.setVariable('error',self.ctrlParams()[0])

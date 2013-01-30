@@ -139,6 +139,26 @@ class LinkedModel(object):
 		self.__db.commit()
 		return insert_id
 		
+	def update(self,data):
+		dataString = ''
+		dataStringPartedList = list()
+		for k,v in data.iteritems():
+			dataStringPartedList.append('%s=%s'%(k,v))
+		dataString = ' '.join(dataStringPartedList)
+		
+		queryString = "update %(table)s set %(data)s where %(where)s"%dict(
+			table = self.__tableName,
+			data = dataString,
+			where = self.__buildWhereString()
+		)
+		
+		self.__clearLinkedData()
+		
+		n = self.__db.execute(queryString)
+		self.__db.commit()
+		
+		return n
+		
 	def __appendLinkedData(self,name,value):
 		if not self.__linkedData.has_key(name):
 			self.__linkedData[name] = list()

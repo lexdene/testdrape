@@ -48,6 +48,9 @@ class Application(object):
 		self.__cookie = cookie.Cookie(self)
 		self.__db = None
 		
+		g = controller.Controller.globalVars()
+		g.clear()
+		
 	def start(self):
 		self.run()
 		

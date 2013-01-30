@@ -1,0 +1,60 @@
+{{ do(	ctrl.addResByPath('css') )}}
+
+<div class="discuss_list">
+	<div class="list_container">
+		<div class="header">
+			<span class="author">作者</span>
+			<span class="pnum">题号</span>
+			<span class="title">标题</span>
+			<span class="ctime">发表时间</span>
+			<span class="reply_count">回复</span>
+			<span class="last_reply">最后回复</span>
+		</div>
+		<div class="list">
+			{% for i in iter %}
+				<div class="item">
+					<span class="author">
+						<a href="/user/Homepage?uid={{i['topic_ui.uid']}}">
+							{{i['topic_ui.nickname']}}
+						</a>
+					</span>
+					<span class="pnum">
+						{% if i['pn.pnum'] %}
+							<a href="/problem/Detail?pnum={{i['pn.pnum']}}" />{{i['pn.pnum']}}</a>
+						{% else %}
+							无
+						{% endif %}
+					</span>
+					<span class="title">
+						<a href="{{ROOT}}/discuss/Topic/id/{{i['id']}}">
+							{{i['title']}}
+						</a>
+					</span>
+					<span class="ctime">
+						{{i['ctime_str']}}
+					</span>
+					<span class="reply_count">{{i['COUNT(count_dr.id)']}}</span>
+					<span class="last_reply">
+						{% if i['last_dr.id'] %}
+							<span class="time">{{i['last_dr.ctime_str']}}</span>
+							<span class="user">
+								<a href="/user/Homepage?uid={{i['last_dr_ui.uid']}}">
+									{{i['last_dr_ui.nickname']}}
+								</a>
+							</span>
+						{% else %}
+							<span class="time">-</span>
+							<span class="user"></span>
+						{% endif %}
+					</span>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="button_links">
+		<a href="{{ROOT}}/discuss/PostTopic?pnum={{pnum}}">发表新主题</a>
+		{% if pnum >= 0 %}
+			<a href="/problem/Detail?pnum={{pnum}}">返回题目</a>
+		{% endif %}
+	</div>
+</div>

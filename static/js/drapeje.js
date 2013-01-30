@@ -101,7 +101,7 @@
 			options.validate.callback(rtn.result,rtn.msg);
 		}
 		if( ! rtn.result ){
-			return
+			return false;
 		}
 		inputlist.attr('disabled',true);
 		var url = form.attr('action');

@@ -21,15 +21,17 @@ class ControllerError(exceptions.StandardError):
 	pass
 
 class InControllerRedirect(ControllerError):
-	def __init__(self,path):
+	def __init__(self,path,argv):
 		super(InControllerRedirect,self).__init__()
 		self.path = path
+		self.argv = argv
 
 class Controller(object):
-	__globalVars = dict(aaa='bbb')
+	__globalVars = dict()
 	def __init__(self,path):
 		self.__path = path
 		self.__vars = dict()
+		self.__ctrlParams = None
 		
 	def run(self,aResponce):
 		self.process()
@@ -72,6 +74,12 @@ class Controller(object):
 		
 	def addHeader(self,key,value):
 		application.Application.singleton().response().addHeader(key,value)
+		
+	def setCtrlParams(self,params):
+		self.__ctrlParams = params
+		
+	def ctrlParams(self):
+		return self.__ctrlParams
 
 class ViewController(Controller):
 	def __init__(self,path,templatePath=None):
@@ -124,6 +132,7 @@ class NestingController(ViewController):
 		except InControllerRedirect as e:
 			path = e.path
 			c = getControllerByPath(path)
+			c.setCtrlParams(e.argv)
 			return c.run(aResponce)
 		
 		if not self.__parent is None:
@@ -155,8 +164,8 @@ class NestingController(ViewController):
 		if type in ['both','js']:
 			res.append(('js%s'%path,'js'))
 		
-	def icRedirect(self,path):
-		raise InControllerRedirect(path)
+	def icRedirect(self,path,*argv):
+		raise InControllerRedirect(path,argv)
 
 class jsonController(Controller):
 	def render(self):
