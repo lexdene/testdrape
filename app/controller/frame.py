@@ -7,13 +7,10 @@ class DefaultFrame(drape.NestingController):
 	def __init__(self,path):
 		super(DefaultFrame,self).__init__(path)
 		
-		self.setNestData({
-			'_path':'/frame/HtmlBody',
-			'body':{
-				'_path':'/frame/Layout',
-				'body':self
-			}
-		})
+		self.setParent('/frame/Layout')
+		
+	def notLogin(self):
+		self.icRedirect('/frame/NotLogin')
 
 class HtmlBody(drape.NestingController):
 	def beforeChildProcess(self):
@@ -42,6 +39,10 @@ class HtmlBody(drape.NestingController):
 		self.setVariable('my_userid',-1)
 
 class Layout(drape.NestingController):
+	def __init__(self,path):
+		super(Layout,self).__init__(path)
+		self.setParent('/frame/HtmlBody')
+		
 	def process(self):
 		self.initRes()
 		
@@ -53,3 +54,10 @@ class Layout(drape.NestingController):
 			aUserinfoModel = drape.LinkedModel('userinfo')
 			userinfo = aUserinfoModel.where(dict(uid=uid)).find()
 			self.setVariable('userinfo',userinfo)
+
+class NotLogin(DefaultFrame):
+	def process(self):
+		self.initRes()
+		urlPath = self.request().urlPath()
+		self.setVariable('urlPath',urlPath)
+		self.setVariable('urlquote',drape.util.urlquote(urlPath))

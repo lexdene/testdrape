@@ -1,6 +1,7 @@
 import view
 import application
 import json
+import exceptions
 
 def getControllerClsByPath(path):
 	x = path.split('/')
@@ -15,6 +16,14 @@ def getControllerClsByPath(path):
 def getControllerByPath(path):
 	cls = getControllerClsByPath(path)
 	return cls(path)
+
+class ControllerError(exceptions.StandardError):
+	pass
+
+class InControllerRedirect(ControllerError):
+	def __init__(self,path):
+		super(InControllerRedirect,self).__init__()
+		self.path = path
 
 class Controller(object):
 	__globalVars = dict(aaa='bbb')
@@ -58,6 +67,9 @@ class Controller(object):
 	def session(self):
 		return application.Application.singleton().session()
 		
+	def request(self):
+		return application.Application.singleton().request()
+		
 	def addHeader(self,key,value):
 		application.Application.singleton().response().addHeader(key,value)
 
@@ -91,65 +103,34 @@ class NestingController(ViewController):
 		self.__children = dict()
 		self.__parent = None
 		
-		# cache
-		self.__cacheRoot = None
-		
-	def setNestData(self,nestdata):
-		self.__nestdata = nestdata
-		
-	def nestData(self):
-		return self.__nestdata
-		
-	def buildNest(self):
-		def build(nest):
-			if isinstance(nest,NestingController):
-				return nest
-			path = nest['_path']
-			aCtrl = getControllerByPath(path)
-			
-			keywords = ('_path','_name')
-			for key,childnest in nest.iteritems():
-				if key not in keywords:
-					aChildCtrl = build(childnest)
-					aCtrl.addChild(key,aChildCtrl)
-			
-			return aCtrl
-			
-		return build(self.nestData())
-		
 	def addChild(self,name,aChildCtrl):
 		self.__children[name] = aChildCtrl
 		aChildCtrl.setParent(self)
 		
 	def setParent(self,parent):
+		if isinstance(parent,str):
+			parent = getControllerByPath(parent)
 		self.__parent = parent
-		
-	def getRootController(self):
-		if self.__parent is None:
-			return self
-		if self.__cacheRoot is None:
-			self.__cacheRoot = self.__parent.getRootController()
-			
-		return self.__cacheRoot
 		
 	def children(self):
 		return self.__children.iteritems()
 		
 	def run(self,aResponce):
-		self.buildNest()
-		
-		root = self.getRootController()
-		aResponce.setBody(root.nestRun())
-		
-	def nestRun(self):
-		self.beforeChildProcess()
-		
-		childResult = dict()
 		for name,aCtrl in self.children():
-			self.setVariable(name,aCtrl.nestRun())
+			self.setVariable(name,aCtrl.render())
 		
-		self.process()
-		return self.render()
+		try:
+			self.process()
+		except InControllerRedirect as e:
+			path = e.path
+			c = getControllerByPath(path)
+			return c.run(aResponce)
+		
+		if not self.__parent is None:
+			self.__parent.addChild('body',self)
+			return self.__parent.run(aResponce)
+		
+		aResponce.setBody(self.render())
 		
 	def beforeChildProcess(self):
 		pass
@@ -173,6 +154,9 @@ class NestingController(ViewController):
 			res.append(('css%s'%path,'css'))
 		if type in ['both','js']:
 			res.append(('js%s'%path,'js'))
+		
+	def icRedirect(self,path):
+		raise InControllerRedirect(path)
 
 class jsonController(Controller):
 	def render(self):

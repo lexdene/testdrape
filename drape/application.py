@@ -55,7 +55,7 @@ class Application(object):
 		try:
 			self.requestInit()
 			
-			self.__request.run(params)
+			self.__request.run(params,environ)
 			self.__cookie.run()
 			
 			self.response().addHeader('Content-Type','text/html; charset=utf-8')

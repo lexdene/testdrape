@@ -3,17 +3,12 @@
 import frame
 import drape.db
 
-class TestFrame(frame.DefaultFrame):
+class TestFrame(drape.NestingController):
 	def __init__(self,path):
 		super(TestFrame,self).__init__(path)
-		
-		n = self.nestData()
-		n['body']['body'] = {
-			'_path':'/test/Layout',
-			'body':self
-		}
+		self.setParent('/test/Layout')
 
-class Layout(drape.NestingController):
+class Layout(frame.DefaultFrame):
 	def process(self):
 		self.initRes()
 

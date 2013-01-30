@@ -2,7 +2,13 @@ class Request(object):
 	def __init__(self):
 		self.__controllerPath = None
 		
-	def run(self,params):
+	def run(self,params,env):
+		# url path
+		self.__urlPath = params.get('path')
+		qs = env.get('QUERY_STRING')
+		if not qs is None:
+			self.__urlPath += '?'+qs
+		
 		# controller path
 		x = params.get('path').split('/')
 		if len(x) > 1 and x[1] != '':
@@ -30,6 +36,9 @@ class Request(object):
 		self.__root_path = params.get('root_path')
 		self.__cookie = params.get('cookie')
 		self.__remote_address = params.get('remote_address')
+		
+	def urlPath(self):
+		return self.__urlPath
 		
 	def controllerPath(self):
 		return self.__controllerPath
