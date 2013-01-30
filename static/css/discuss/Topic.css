@@ -10,7 +10,7 @@
 	line-height: 43px;
 }
 .discuss_topic .building .floor{
-	height: 150px;
+	min-height: 150px;
 	border: solid 1px;
 	border-radius: 4px;
 }
@@ -34,6 +34,9 @@
 }
 .discuss_topic .floor_text{
 	padding: 10px;
+	word-break: break-all;
+	font-size: 20px;
+	margin-bottom: 30px;
 }
 .discuss_topic .reply_block{
 	padding: 10px 0;
@@ -48,7 +51,7 @@
 .discuss_topic .building .floor .floor_right_column{
 	position: relative;
 	width: 600px;
-	height: 130px;
+	min-height: 130px;
 }
 .discuss_topic .building .floor .floor_right_bottom{
 	position: absolute;
