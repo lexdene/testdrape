@@ -17,7 +17,7 @@
 							'name' : '回复',
 							'validates' : [
 								['notempty'],
-								['len',4,50]
+								['len',4,5000]
 							]
 						},
 					]

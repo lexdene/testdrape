@@ -5,6 +5,7 @@ import time
 import frame
 import drape
 import drape.validate
+import markdown
 
 class List(frame.DefaultFrame):
 	def process(self):
@@ -145,6 +146,7 @@ class Topic(frame.DefaultFrame):
 			return
 		
 		aTopicInfo['ctime_str'] = drape.util.timeStamp2Str(aTopicInfo['ctime'])
+		aTopicInfo['text'] = markdown.markdown( aTopicInfo['text'] )
 		self.setVariable('topicInfo',aTopicInfo)
 		self.setTitle(aTopicInfo['title'])
 		
@@ -157,6 +159,7 @@ class Topic(frame.DefaultFrame):
 		for c,reply in enumerate(aReplyIter):
 			reply['floor'] = c+2
 			reply['ctime_str'] = drape.util.timeStamp2Str(reply['ctime'])
+			reply['text'] = markdown.markdown( reply['text'] )
 		
 		self.setVariable('aReplyIter',aReplyIter)
 
