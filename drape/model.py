@@ -42,7 +42,7 @@ class LinkedModel(object):
 		elif isinstance(w,dict):
 			for i in w:
 				v = w[i]
-				if isinstance(v,int):
+				if isinstance(v,(int,long,float)):
 					self.__appendLinkedData('where','%s = %d'%(i,v))
 				else:
 					self.__appendLinkedData('where','%s = "%s"'%(i,v))
@@ -143,8 +143,13 @@ class LinkedModel(object):
 		dataString = ''
 		dataStringPartedList = list()
 		for k,v in data.iteritems():
-			dataStringPartedList.append('%s=%s'%(k,v))
-		dataString = ' '.join(dataStringPartedList)
+			if isinstance(v,(int,long,float)):
+				dataStringPartedList.append('%s=%s'%(k,v))
+			elif isinstance(v,basestring):
+				dataStringPartedList.append('%s="%s"'%(k,v))
+			else:
+				raise TypeError('%s , %s'%(value,type(value).__name__))
+		dataString = ' ,'.join(dataStringPartedList)
 		
 		queryString = "update %(table)s set %(data)s where %(where)s"%dict(
 			table = self.__tableName,

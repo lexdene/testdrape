@@ -105,6 +105,10 @@ class ViewController(Controller):
 		g = self.globalVars()
 		g['title'] = t
 		
+	def title(self):
+		g = self.globalVars()
+		return g['title']
+		
 class NestingController(ViewController):
 	def __init__(self,path):
 		super(NestingController,self).__init__(path)
