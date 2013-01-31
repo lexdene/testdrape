@@ -203,7 +203,7 @@ class Logout(frame.DefaultFrame):
 		redirect = aParams.get('redirect','/')
 		self.setVariable('redirect',redirect)
 
-class UserCenterFrame(drape.NestingController):
+class UserCenterFrame(frame.FrameBase):
 	def __init__(self,path):
 		super(UserCenterFrame,self).__init__(path)
 		self.setParent('/user/UserCenterLayout')
@@ -217,6 +217,11 @@ class UserCenter(UserCenterFrame):
 	def process(self):
 		self.initRes()
 		self.setTitle(u'个人中心')
+		
+		aSession = self.session()
+		uid = drape.util.toInt(aSession.get('uid',-1))
+		if uid < 0:
+			self.notLogin()
 
 class EditUserInfo(UserCenterFrame):
 	def process(self):
@@ -258,6 +263,11 @@ class ChangePassword(UserCenterFrame):
 	def process(self):
 		self.initRes()
 		self.setTitle(u'修改密码')
+		
+		aSession = self.session()
+		uid = drape.util.toInt(aSession.get('uid',-1))
+		if uid < 0:
+			self.notLogin()
 
 class ajaxChangePassword(drape.controller.jsonController):
 	def process(self):

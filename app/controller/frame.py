@@ -3,17 +3,17 @@
 import drape
 import app
 
-class DefaultFrame(drape.NestingController):
-	def __init__(self,path):
-		super(DefaultFrame,self).__init__(path)
-		
-		self.setParent('/frame/Layout')
-		
+class FrameBase(drape.NestingController):
 	def notLogin(self):
 		self.icRedirect('/frame/NotLogin')
 		
 	def Error(self,error):
 		self.icRedirect('/frame/Error',error)
+
+class DefaultFrame(FrameBase):
+	def __init__(self,path):
+		super(DefaultFrame,self).__init__(path)
+		self.setParent('/frame/Layout')
 
 class HtmlBody(drape.NestingController):
 	def beforeChildProcess(self):

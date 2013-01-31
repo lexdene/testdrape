@@ -6,7 +6,7 @@ class Request(object):
 		# url path
 		self.__urlPath = params.get('path')
 		qs = env.get('QUERY_STRING')
-		if not qs is None:
+		if not qs is None and len(qs) > 0 :
 			self.__urlPath += '?'+qs
 		
 		# controller path
