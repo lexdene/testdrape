@@ -200,3 +200,14 @@ class SaeApplication(WsgiApplication):
 			}
 		}
 		return config
+		
+	def saveUploadFile(self,fileobj,filepath):
+		import sae.storage
+		# 初始化一个Storage客户端。
+		s = sae.storage.Client()
+		# LIST所有的domain
+		# s.list_domain()
+		# PUT object至某个domain下面，put操作返回object的public url。
+		ob = sae.storage.Object(fileobj.file.read())
+		domain_name = config['sae_storage']['domain_name']
+		return s.put(domain_name, filepath, ob)
