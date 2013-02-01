@@ -25,6 +25,7 @@ class Request(object):
 		
 		# params
 		self.__paramDict = dict()
+		self.__fileDict = dict()
 		
 		# path params
 		i = 3
@@ -36,8 +37,17 @@ class Request(object):
 		
 		# field storage
 		form = params.get('field_storage')
-		for i in form:
-			self.__paramDict[form[i].name] = form[i].value
+		self.__field_storage = form
+		for key in form:
+			value = form[key]
+			# get last in list
+			if isinstance(value,list):
+				value = value[-1]
+			# file or string
+			if value.filename is None:
+				self.__paramDict[key] = value.value
+			else:
+				self.__fileDict[key] = value
 		
 		self.__root_path = params.get('root_path')
 		self.__cookie = params.get('cookie')
@@ -57,6 +67,12 @@ class Request(object):
 		
 	def params(self):
 		return self.__paramDict
+		
+	def files(self):
+		return self.__fileDict
+		
+	def fieldStorage(self):
+		return self.__field_storage
 		
 	def cookie(self):
 		return self.__cookie

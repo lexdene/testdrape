@@ -15,6 +15,11 @@ class Layout(frame.DefaultFrame):
 class Index(TestFrame):
 	pass
 
+class Params(TestFrame):
+	def process(self):
+		aParams = self.params()
+		self.setVariable('params',aParams)
+
 class Db(TestFrame):
 	def process(self):
 		aDb = drape.db.Db.singleton()

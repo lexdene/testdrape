@@ -1,0 +1,11 @@
+{% for k,v in params.iteritems() %}
+	<div>{{k}} => {{v|escape}}</div>
+{% endfor %}
+
+<form method="post" enctype="multipart/form-data">
+	<input type='hidden' name='key' value='xxx' />
+	<input type='hidden' name='key' value='yyy' />
+	<input type='hidden' name='value' value='ooo' />
+	<input type='file' name='file_field' />
+	<input type='submit' />
+</form>
