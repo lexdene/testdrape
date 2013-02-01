@@ -25,7 +25,10 @@ config={
 	},
 	'view' : {
 		'template_type' : 'jinja2',
-	}
+	},
+	'sae_storage' : dict(
+		domain_name = 'storage'
+	)
 }
 
 def update(newconfig):
