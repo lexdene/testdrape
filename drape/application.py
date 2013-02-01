@@ -117,6 +117,9 @@ class Application(object):
 		if self.__db is None:
 			self.__db = db.Db()
 		return self.__db
+		
+	def saveUploadFile(self,fileobj,filepath):
+		pass
 
 class WsgiApplication(Application):
 	def __init__(self):
@@ -156,6 +159,19 @@ class WsgiApplication(Application):
 		)
 		
 		return [ret]
+		
+	def saveUploadFile(self,fileobj,filepath):
+		dirpath = 'static/userupload'
+		
+		if not os.path.isdir(dirpath):
+			os.makedirs(dirpath)
+		
+		filepath = os.path.join(dirpath,filepath)
+		fout = open( filepath ,'w')
+		fileobj.file.seek(0)
+		fout.write( fileobj.file.read() )
+		fout.close()
+		return '/'+filepath
 
 class SaeApplication(WsgiApplication):
 	def __init__(self):

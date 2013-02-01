@@ -1,0 +1,8 @@
+{% if savepath %}
+	{{savepath}}
+	<img src="{{ROOT}}{{savepath}}" />
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+	<input type='file' name='avatar' />
+	<input type='submit' />
+</form>

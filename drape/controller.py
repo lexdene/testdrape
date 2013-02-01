@@ -63,6 +63,13 @@ class Controller(object):
 		aRequest = application.Application.singleton().request()
 		return aRequest.params()
 		
+	def files(self):
+		aRequest = application.Application.singleton().request()
+		return aRequest.files()
+		
+	def saveUploadFile(self,fileobj,filepath):
+		return application.Application.singleton().saveUploadFile(fileobj,filepath)
+		
 	def cookie(self):
 		return application.Application.singleton().cookie()
 		

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import frame
-import drape.db
+import os,hashlib
+
+import frame,drape.db
 
 class TestFrame(drape.NestingController):
 	def __init__(self,path):
@@ -19,6 +20,28 @@ class Params(TestFrame):
 	def process(self):
 		aParams = self.params()
 		self.setVariable('params',aParams)
+
+class GetFile(TestFrame):
+	def process(self):
+		key = 'avatar'
+		aFiles = self.files()
+		
+		if key in aFiles:
+			myfile = aFiles[key]
+			
+			sufix = os.path.splitext(myfile.filename)[1][1:]
+			
+			m = hashlib.sha1()
+			m.update(myfile.file.read())
+			saveFileName = m.hexdigest()
+			
+			filepath = '%s.%s'%(saveFileName,sufix)
+			
+			savepath = self.saveUploadFile(myfile,filepath)
+			self.setVariable('savepath',savepath)
+
+class IterFile(TestFrame):
+	pass
 
 class Db(TestFrame):
 	def process(self):
