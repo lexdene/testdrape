@@ -127,7 +127,7 @@ class Session(object):
 			if rawdata is None:
 				print "rawdata is None. recreate"
 				self.__initData(
-					aRequest.remote_address(),
+					aRequest.remoteAddress(),
 					config.config['session']['timeout']
 				)
 			else:
@@ -136,11 +136,11 @@ class Session(object):
 			
 			# validate address
 			# check expired time
-			if aRequest.remote_address() != self.get('_remote_address') \
+			if aRequest.remoteAddress() != self.get('_remote_address') \
 					or time.time() > self.get('_expired'):
 				print "address failed or expired. init data"
 				self.__initData(
-					aRequest.remote_address(),
+					aRequest.remoteAddress(),
 					config.config['session']['timeout']
 				)
 			
@@ -148,12 +148,12 @@ class Session(object):
 		if self.__session_id is None:
 			print "session id is None.recreate id and data"
 			self.__session_id = self.__recreate_session_id(
-				aRequest.remote_address(),
+				aRequest.remoteAddress(),
 				config.config['session']['secret_key']
 			)
 			aCookie.add(cookie_name,self.__session_id)
 			self.__initData(
-				aRequest.remote_address(),
+				aRequest.remoteAddress(),
 				config.config['session']['timeout']
 			)
 			print "data:",self.__data

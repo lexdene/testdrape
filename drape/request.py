@@ -52,6 +52,7 @@ class Request(object):
 		self.__root_path = params.get('root_path')
 		self.__cookie = params.get('cookie')
 		self.__remote_address = params.get('remote_address')
+		self.__request_uri = env.get('REQUEST_URI')
 		
 	def urlPath(self):
 		return self.__urlPath
@@ -62,7 +63,10 @@ class Request(object):
 	def rootPath(self):
 		return self.__root_path
 		
-	def remote_address(self):
+	def requestUri(self):
+		return self.__request_uri
+		
+	def remoteAddress(self):
 		return self.__remote_address
 		
 	def params(self):

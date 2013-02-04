@@ -59,6 +59,11 @@ class Application(object):
 			self.requestInit()
 			
 			self.__request.run(params,environ)
+			
+			if self.__request.requestUri() == self.__request.rootPath():
+				self.__response.setStatus('301 Moved Permanently')
+				self.response().addHeader('Location',self.__request.rootPath() + '/' )
+				return
 			self.__cookie.run()
 			
 			self.response().addHeader('Content-Type','text/html; charset=utf-8')
