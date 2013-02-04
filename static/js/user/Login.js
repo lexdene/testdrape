@@ -12,6 +12,8 @@
 					window.location = WEB_ROOT + form.attr('redirect');
 				},
 				'failed':function(msg){
+					form.find('input[name=valcode]').val('');
+					refresh_valcode_img();
 					alert('登录失败:'+msg);
 				},
 				'validate':{
@@ -48,8 +50,6 @@
 					}
 				}
 			});
-			form.find('input[name=valcode]').val('');
-			refresh_valcode_img();
 			return false;
 		});
 	});
