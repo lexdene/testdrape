@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 
-import time
+import time,os,re
 
 import frame
 import drape
 import drape.validate
 import markdown
+
+def emoji(text,imgbasepath):
+	reg = re.compile(':([_a-zA-Z0-9]+):')
+	text = reg.sub(r'<img class="common_emoji" title=":\1:" alt=":\1:" src="%s/\1.png" align="absmiddle">'%imgbasepath,text)
+	return text
 
 class List(frame.DefaultFrame):
 	def process(self):
@@ -127,6 +132,12 @@ class Topic(frame.DefaultFrame):
 	def process(self):
 		self.initRes()
 		
+		def transText(text):
+			text = markdown.markdown(text)
+			imgbasepath = os.path.join(self.request().rootPath(),'static/emoji')
+			text = emoji(text,imgbasepath)
+			return text
+		
 		aParams = self.params()
 		tid = drape.util.toInt(aParams.get('id',-1))
 		if tid < 0:
@@ -146,7 +157,7 @@ class Topic(frame.DefaultFrame):
 			return
 		
 		aTopicInfo['ctime_str'] = drape.util.timeStamp2Str(aTopicInfo['ctime'])
-		aTopicInfo['text'] = markdown.markdown( aTopicInfo['text'] )
+		aTopicInfo['text'] = transText( aTopicInfo['text'] )
 		self.setVariable('topicInfo',aTopicInfo)
 		self.setTitle(aTopicInfo['title'])
 		
@@ -159,7 +170,7 @@ class Topic(frame.DefaultFrame):
 		for c,reply in enumerate(aReplyIter):
 			reply['floor'] = c+2
 			reply['ctime_str'] = drape.util.timeStamp2Str(reply['ctime'])
-			reply['text'] = markdown.markdown( reply['text'] )
+			reply['text'] = transText( reply['text'] )
 		
 		self.setVariable('aReplyIter',aReplyIter)
 

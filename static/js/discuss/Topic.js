@@ -1,15 +1,4 @@
 (function(jq){
-	function startEmojify(){
-		emojify.setConfig({
-			emoticons_enabled: false,
-			people_enabled: true,
-			nature_enabled: true,
-			objects_enabled: true,
-			places_enabled: true,
-			symbols_enabled: true
-		});
-		emojify.run();
-	}
 	jq(function(){
 		jq('#reply_form').submit(function(){
 			var form = jq(this);
@@ -41,6 +30,5 @@
 				}
 			});
 		});
-		startEmojify();
 	});
 })(jQuery);
