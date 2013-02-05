@@ -134,7 +134,7 @@ class Topic(frame.DefaultFrame):
 		
 		def transText(text):
 			text = markdown.markdown(text)
-			imgbasepath = os.path.join(self.request().rootPath(),'static/emoji')
+			imgbasepath = self.request().rootPath()+'/static/emoji'
 			text = emoji(text,imgbasepath)
 			return text
 		
