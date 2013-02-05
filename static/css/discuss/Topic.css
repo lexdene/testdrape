@@ -38,6 +38,9 @@
 	font-size: 20px;
 	margin-bottom: 30px;
 }
+.discuss_topic .floor_text img{
+	max-width: 450px;
+}
 .discuss_topic .reply_block{
 	padding: 10px 0;
 }
