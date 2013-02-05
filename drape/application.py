@@ -176,7 +176,7 @@ class WsgiApplication(Application):
 		fileobj.file.seek(0)
 		fout.write( fileobj.file.read() )
 		fout.close()
-		return '/'+filepath
+		return os.path.join(self.request().rootPath(),filepath)
 
 class SaeApplication(WsgiApplication):
 	def __init__(self):

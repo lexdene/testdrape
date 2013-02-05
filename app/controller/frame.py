@@ -15,6 +15,11 @@ class DefaultFrame(FrameBase):
 		super(DefaultFrame,self).__init__(path)
 		self.setParent('/frame/Layout')
 
+class EmptyFrame(FrameBase):
+	def __init__(self,path):
+		super(EmptyFrame,self).__init__(path)
+		self.setParent('/frame/HtmlBody')
+
 class HtmlBody(drape.NestingController):
 	def beforeChildProcess(self):
 		g = self.globalVars()

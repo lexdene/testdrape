@@ -175,5 +175,34 @@
 				);
 			});
 		}
+		,centerInWindow : function(){
+			return this.each(function(){
+				var jwin = jq(window);
+				var jdoc = jq(document);
+				var obj = jq(this);
+				var top = ( jwin.height() - obj.height() ) /2;
+				var left = ( jwin.width() - obj.width() ) /2;
+				var scrollTop = jdoc.scrollTop();
+				var scrollLeft = jdoc.scrollLeft();
+				obj.css({
+					position : 'absolute',
+					top : top + scrollTop,
+					left : left + scrollLeft
+				}).show();
+			});
+		}
+		,dialog: function(options) {
+			function contructor(obj,options){
+				this._obj = obj;
+				this._options = options;
+				this.show = function(){
+					this._obj.centerInWindow();
+				}
+				this.close = function(){
+					this._obj.hide();
+				}
+			}
+			return new contructor(this,options);
+		}
 	});
 })(jQuery);

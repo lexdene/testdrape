@@ -33,3 +33,10 @@
 .common_valcode_img{
 	width: 100px;
 }
+.common_dialog{
+	display: none;
+	width: 300px;
+	height: 200px;
+	border: solid 1px;
+	background: #F2F5F7;
+}

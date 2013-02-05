@@ -2,6 +2,11 @@
 	function showError(text){
 		jq('.msg_block').find('.msg').html(text);
 	}
+	function setAvatar(avatar){
+		var form = jq('#edituserinfo_form');
+		form.find('input[name=avatar]').val(avatar);
+		jq('.avatar_preview').find('.avatar').attr('src',avatar);
+	}
 	jq(function(){
 		var form = jq('#edituserinfo_form');
 		form.find('input[name=avatar]').keyup(function(){
@@ -14,6 +19,15 @@
 		jq('.avatar_preview').find('.avatar').load(function(){
 			showError('');
 		});
+		var dialog = jq('#dialog').dialog();
+		jq('#upload_avatar_btn').click(function(){
+			jq('#dialog').find('iframe').attr('src','../common/UploadImage');
+			dialog.show();
+		});
+		jq('#dialog').find('.close_button').click(function(){
+			jq('#dialog').find('iframe').attr('src','');
+			dialog.close();
+		});
 		form.submit(function(){
 			form.ajaxSubmit({
 				'success':function(){
@@ -25,5 +39,10 @@
 				}
 			});
 		});
+		window.uploadCallBack = function(result,savepath){
+			if( 'success' == result ){
+				setAvatar(savepath);
+			}
+		}
 	});
 })(jQuery);
