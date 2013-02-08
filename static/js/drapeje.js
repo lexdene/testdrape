@@ -204,5 +204,14 @@
 			}
 			return new contructor(this,options);
 		}
+		,jump: function(elapse){
+			if( typeof elapse == 'undefined' ){
+				elapse = 300;
+			}
+			if(this.length > 0 ){
+				var _targetTop = this.offset().top;
+				jq("html,body").animate({scrollTop:_targetTop},elapse);
+			}
+		}
 	});
 })(jQuery);

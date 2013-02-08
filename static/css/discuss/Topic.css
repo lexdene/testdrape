@@ -51,13 +51,27 @@
 	overflow-y: auto;
 	word-wrap:break-word;
 }
+.discuss_topic .reply_block .reply_to_hint{
+	display: none;
+}
 .discuss_topic .building .floor .floor_right_column{
 	position: relative;
 	width: 600px;
 	min-height: 130px;
+	padding: 10px;
 }
 .discuss_topic .building .floor .floor_right_bottom{
 	position: absolute;
 	right: 0;
 	bottom: 0;
+}
+.discuss_topic .building .floor .reply_to_reply{
+	border: solid 1px;
+	padding: 5px;
+	width: 400px;
+}
+.discuss_topic .building .floor .reply_to_reply .content{
+	background-color: white;
+	padding: 5px;
+	border-radius: 5px;
 }

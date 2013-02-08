@@ -133,6 +133,8 @@ class Topic(frame.DefaultFrame):
 		self.initRes()
 		
 		def transText(text):
+			if text is None:
+				return ''
 			text = markdown.markdown(text)
 			imgbasepath = self.request().rootPath()+'/static/emoji'
 			text = emoji(text,imgbasepath)
@@ -156,8 +158,6 @@ class Topic(frame.DefaultFrame):
 			self.Error(u'参数无效:没有与id对应的主题')
 			return
 		
-		aTopicInfo['ctime_str'] = drape.util.timeStamp2Str(aTopicInfo['ctime'])
-		aTopicInfo['text'] = transText( aTopicInfo['text'] )
 		self.setVariable('topicInfo',aTopicInfo)
 		self.setTitle(aTopicInfo['title'])
 		
@@ -165,14 +165,17 @@ class Topic(frame.DefaultFrame):
 		aReplyIter = aReplyModel \
 			.alias('dr') \
 			.join('userinfo','ui','dr.uid = ui.uid') \
+			.join('discuss_reply','rtr','dr.reply_to_id = rtr.id') \
+			.join('userinfo','rtrui','rtr.uid = rtrui.uid') \
 			.where({'dr.tid':tid}) \
 			.select()
 		for c,reply in enumerate(aReplyIter):
 			reply['floor'] = c+2
-			reply['ctime_str'] = drape.util.timeStamp2Str(reply['ctime'])
-			reply['text'] = transText( reply['text'] )
 		
 		self.setVariable('aReplyIter',aReplyIter)
+		
+		self.setVariable('transText',transText)
+		self.setVariable('timestr',drape.util.timeStamp2Str)
 
 class ajaxPostReply(drape.controller.jsonController):
 	def process(self):

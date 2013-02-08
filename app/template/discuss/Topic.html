@@ -22,13 +22,13 @@
 				<div class="floor_text">{{topicInfo['text']}}</div>
 				<div class="floor_right_bottom">
 					<div class="floor_count">1楼</div>
-					<div class="floor_time">{{topicInfo['ctime_str']}}</div>
+					<div class="floor_time">{{ timestr(topicInfo['ctime']) }}</div>
 				</div>
 			</div>
 			<div class="clear"></div>
 		</div>
 		{% for reply in aReplyIter %}
-			<div class="floor">
+			<div class="floor" floor_num="{{ reply['floor'] }}" floor_id="{{reply['id']}}">
 				<div class="common_layout_column floor_left_column">
 					<div class="user_panel">
 						<div class="avatar_block">
@@ -42,10 +42,25 @@
 					</div>
 				</div>
 				<div class="common_layout_column floor_right_column">
-					<div class="floor_text">{{reply['text']}}</div>
+					{% if reply['reply_to_id'] > 0 and reply['rtr.id'] %}
+						<div class="reply_to_reply" reply_to_id="{{reply['reply_to_id']}}">
+							<span>reply to:</span>
+							<span>
+								<a href="/user/Homepage?uid={{reply['rtrui.uid']}}">
+									{{reply['rtrui.nickname']}}
+								</a>
+							</span>
+							<div class="content"> {{ transText(reply['rtr.text']) }} </div>
+							<div class="buttons">
+								<a href='#' onclick="return false" class="jump_button">jump to</a>
+							</div>
+						</div>
+					{% endif %}
+					<div class="floor_text">{{ transText(reply['text']) }}</div>
 					<div class="floor_right_bottom">
 						<div class="floor_count">{{ reply['floor'] }}楼</div>
-						<div class="floor_time">{{ reply['ctime_str'] }}</div>
+						<div class="floor_time">{{ timestr(reply['ctime']) }}</div>
+						<a href='#' onclick="return false" class="reply_button">回复</a>
 					</div>
 				</div>
 				<div class="clear"></div>
@@ -60,6 +75,10 @@
 			<input type='hidden' name='tid' value='{{topicInfo['id']}}' />
 			<input type='hidden' name='reply_to_id' value='-1' />
 			<div class="h">发表回复</div>
+			<div class="reply_to_hint">
+				<span>回复<span class="floor_num">-1</span>楼</span>
+				<a href='#' onclick="return false" class="cancel_reply_button">取消</a>
+			</div>
 			<div>
 				<textarea name="text" placeholder="请输入回复内容..."></textarea>
 			</div>
