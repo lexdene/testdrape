@@ -48,9 +48,6 @@ body{
 .top_title_block{
 	padding: 40px;
 }
-.top_block,.navigation{
-	display: none;
-}
 .nav_block{
 	width:100px;
 	float:left;

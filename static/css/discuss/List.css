@@ -5,10 +5,13 @@
 .discuss_list .list_container .reply_count,
 .discuss_list .list_container .last_reply{
 	display: inline-block;
-	width: 100px;
+	width: 150px;
 }
 .discuss_list .list_container .author{
 	white-space: nowrap;
+}
+.discuss_list .list_container .pnum{
+	display: none;
 }
 .discuss_list .list_container .title{
 	width: 200px;

@@ -2,6 +2,7 @@
  * drape jquery extend
  */
 (function(jq) {
+	var jQuery = undefined;
 	function ajaxSubmit(form,options){
 		var form = jq(form);
 		var senddata = {};
@@ -212,6 +213,24 @@
 				var _targetTop = this.offset().top;
 				jq("html,body").animate({scrollTop:_targetTop},elapse);
 			}
+		}
+		,tabs: function(options){
+			var jobj = this;
+			jobj.find('.tab_nav').find('a').click(function(){
+				var page = jq(this).attr('tab_page');
+				changePage( page );
+				return false;
+			});
+			function changePage(pagename){
+				jobj.find('.tab_page').hide();
+				jobj.find('.tab_page[tab_page='+pagename+']').show();
+				jobj.find('.tab_nav').find('.nav_btn').closest('.nav_btn_wrap').removeClass('nav_btn_active');
+				jobj.find('.tab_nav').find('.nav_btn[tab_page='+pagename+']').closest('.nav_btn_wrap').addClass('nav_btn_active');
+			}
+			function showFirstPage(){
+				changePage( jobj.find('.tab_page').first().attr('tab_page') );
+			}
+			showFirstPage();
 		}
 	});
 })(jQuery);

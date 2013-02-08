@@ -27,6 +27,7 @@
 	margin: 10px auto;
 	overflow: hidden;
 	background: white;
+	text-align: center;
 }
 .discuss_topic .avatar_block .avatar{
 	max-width: 100px;
