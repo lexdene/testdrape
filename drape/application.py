@@ -76,7 +76,7 @@ class Application(object):
 				
 			c = controllerCls(path)
 			
-			c.run(self.__response)
+			self.__response.setBody(c.run())
 			
 			if not self.__session is None:
 				self.__session.save()

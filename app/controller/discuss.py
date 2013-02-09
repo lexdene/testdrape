@@ -44,20 +44,10 @@ class List(frame.DefaultFrame):
 		
 		self.setVariable('pnum',pnum)
 		self.setVariable('iter',aTopicList)
-
-class PostTopic(frame.DefaultFrame):
-	def process(self):
-		self.initRes()
-		self.setTitle(u'发表新主题')
 		
 		aSession = self.session()
-		uid = aSession.get('uid',-1)
-		if uid < 0:
-			self.notLogin()
-		
-		aParams = self.params()
-		pnum = drape.util.toInt(aParams.get('pnum',-1))
-		self.setVariable('pnum',pnum)
+		uid = drape.util.toInt(aSession.get('uid',-1))
+		self.setVariable('uid',uid)
 
 class ajaxPostTopic(drape.controller.jsonController):
 	def process(self):

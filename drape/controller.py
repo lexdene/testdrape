@@ -33,9 +33,9 @@ class Controller(object):
 		self.__vars = dict()
 		self.__ctrlParams = None
 		
-	def run(self,aResponce):
+	def run(self):
 		self.process()
-		aResponce.setBody(self.render())
+		return self.render()
 		
 	def process(self):
 		pass
@@ -134,7 +134,7 @@ class NestingController(ViewController):
 	def children(self):
 		return self.__children.iteritems()
 		
-	def run(self,aResponce):
+	def run(self):
 		for name,aCtrl in self.children():
 			self.setVariable(name,aCtrl.render())
 		
@@ -144,13 +144,13 @@ class NestingController(ViewController):
 			path = e.path
 			c = getControllerByPath(path)
 			c.setCtrlParams(e.argv)
-			return c.run(aResponce)
+			return c.run()
 		
 		if not self.__parent is None:
 			self.__parent.addChild('body',self)
-			return self.__parent.run(aResponce)
+			return self.__parent.run()
 		
-		aResponce.setBody(self.render())
+		return self.render()
 		
 	def beforeChildProcess(self):
 		pass
