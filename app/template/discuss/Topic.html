@@ -74,6 +74,7 @@
 		<a href="{{ROOT}}/discuss/List">返回讨论区列表</a>
 	</div>
 	<div class="reply_block">
+		{% if uid > 0 %}
 		<form id="reply_form"
 			action='{{ROOT}}/discuss/ajaxPostReply'
 			method='post'
@@ -90,5 +91,9 @@
 			</div>
 			<input type='submit' value='发送' />
 		</form>
+		{% else %}
+			<div>未登录用户无法评论。</div>
+			<div>请先<a href="{{ROOT}}/user/Login?redirect=/discuss/Topic/id/{{topicInfo['id']}}">登录</a>
+		{% endif %}
 	</div>
 </div>

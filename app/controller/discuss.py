@@ -176,6 +176,10 @@ class Topic(frame.DefaultFrame):
 		
 		self.setVariable('transText',transText)
 		self.setVariable('timestr',drape.util.timeStamp2Str)
+		
+		aSession = self.session()
+		uid = drape.util.toInt(aSession.get('uid',-1))
+		self.setVariable('uid',uid)
 
 class ajaxPostReply(drape.controller.jsonController):
 	def process(self):
