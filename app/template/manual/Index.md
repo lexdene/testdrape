@@ -33,3 +33,6 @@ drape融合了其它框架中的一些我个人比较喜欢的特性，
 ## 多种接口
 * 支持cgi接口、wsgi接口等多种部署方式
 * 支持SAE
+
+我写了篇文章总结python的cgi接口，
+见[【apache+cgi+python】cgi接口浅析](https://github.com/lexdene/md-blog/blob/master/python/webpy/apache-cgi-python.md "apache+cgi+python")
