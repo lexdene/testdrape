@@ -35,4 +35,6 @@ drape融合了其它框架中的一些我个人比较喜欢的特性，
 * 支持SAE
 
 我写了篇文章总结python的cgi接口，
-见[【apache+cgi+python】cgi接口浅析](https://github.com/lexdene/md-blog/blob/master/python/webpy/apache-cgi-python.md "apache+cgi+python")
+见[【apache+cgi+python】cgi接口浅析][1]
+
+[1]:https://github.com/lexdene/md-blog/blob/master/python/webpy/apache-cgi-python.md "apache+cgi+python"
