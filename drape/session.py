@@ -69,7 +69,8 @@ class FileStore(StoreBase):
 		return os.path.isfile(path)
 
 class MemStore(StoreBase):
-	def __init__(self):
+	def __init__(self,config):
+		super(MemStore,self).__init__(config)
 		import pylibmc
 		self.mc = pylibmc.Client()
 		
