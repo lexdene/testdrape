@@ -16,7 +16,12 @@ class StoreBase(object):
 		if store_cls is None:
 			raise ConfigError('no such store type:%s'%store_type)
 		
-		return store_cls(session_config)
+		s = store_cls(session_config)
+		
+		# cleanup
+		s.cleanup()
+		
+		return s
 		
 	def __init__(self,config):
 		self.__config = config
@@ -30,12 +35,15 @@ class StoreBase(object):
 		else:
 			return value
 		
+	def cleanup(self):
+		raise NotImplementedError
+		
 	def __contains__(self, key):
 		raise NotImplementedError
-
+		
 	def __getitem__(self, key):
 		raise NotImplementedError
-
+		
 	def __setitem__(self, key, value):
 		raise NotImplementedError
 
@@ -67,6 +75,16 @@ class FileStore(StoreBase):
 		directory = self.config()['file_directory']
 		path = '%s/%s'%(directory,key)
 		return os.path.isfile(path)
+		
+	def cleanup(self):
+		directory = self.config()['file_directory']
+		timeout = self.config()['timeout']
+		now = time.time()
+		for f in os.listdir(directory):
+			path = os.path.join(directory,f)
+			atime = os.stat(path).st_atime
+			if now - atime > timeout :
+				os.remove(path)
 
 class MemStore(StoreBase):
 	def __init__(self,config):
@@ -79,12 +97,10 @@ class MemStore(StoreBase):
 		return bool(data)
 		
 	def __getitem__(self, key):
-		# now = time.time()
 		value = self.mc.get(key)
 		if not value:
 			raise KeyError
 		else:
-			# value['attime'] = now
 			self.mc.set(key,value)
 			return value
 		
@@ -95,7 +111,7 @@ class MemStore(StoreBase):
 	def __delitem__(self, key):
 		self.mc.delete(key)
 		
-	def cleanup(self, timeout):
+	def cleanup(self):
 		pass
 
 class Session(object):

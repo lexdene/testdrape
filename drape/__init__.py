@@ -2,4 +2,4 @@ from application import *
 from controller import *
 from model import *
 
-version = '0.1.3.4'
+version = '0.1.3.5'
