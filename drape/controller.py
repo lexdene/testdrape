@@ -103,6 +103,9 @@ class ViewController(Controller):
 	def setTemplatePath(self,templatePath):
 		self.__templatePath = templatePath
 		
+	def templatePath(self):
+		return self.__templatePath
+		
 	def render(self):
 		aView = view.View(self.__templatePath)
 		r = aView.render(self.getVardict())

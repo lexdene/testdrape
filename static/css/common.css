@@ -48,3 +48,12 @@ pre{
 	height: 32px;
 	width: 32px;
 }
+pre{
+	background-color: #F8F8F8;
+	border: 1px solid #CCC;
+	font-size: 13px;
+	line-height: 19px;
+	overflow: auto;
+	padding: 6px 10px;
+	border-radius: 3px;
+}
