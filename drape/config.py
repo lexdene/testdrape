@@ -12,16 +12,10 @@ config={
 	},
 	'session' : {
 		'store_type' : 'file',
-		'store_args' : {
-			'directory' : 'data/session',
-		},
+		'file_directory' : 'data/session',
 		'cookie_name': 'drape_session_id',
-		'cookie_domain': None,
-		'timeout': 86400, #24 * 60 * 60, # 24 hours in seconds
-		'ignore_expiry': True,
-		'ignore_change_ip': True,
-		'secret_key': 'fLjUfxqXtfNoIldA0A0J',
-		'expired_message': 'Session expired',
+		'timeout': 24*3600,
+		'secret_key': util.md5sum('drape_web_framework'),
 	},
 	'view' : {
 		'template_type' : 'jinja2',

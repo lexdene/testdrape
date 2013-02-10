@@ -6,7 +6,7 @@ class ConfigError(exceptions.StandardError):
 
 class StoreBase(object):
 	@classmethod
-	def create(cls,store_type,store_args):
+	def create(cls,store_type,session_config):
 		store_cls = None
 		if 'file' == store_type:
 			store_cls = FileStore
@@ -16,10 +16,13 @@ class StoreBase(object):
 		if store_cls is None:
 			raise ConfigError('no such store type:%s'%store_type)
 		
-		if store_args is None:
-			return store_cls()
-		else:
-			return store_cls(**store_args)
+		return store_cls(session_config)
+		
+	def __init__(self,config):
+		self.__config = config
+		
+	def config(self):
+		return self.__config
 		
 	def get(self,key,value=None):
 		if key in self:
@@ -37,11 +40,9 @@ class StoreBase(object):
 		raise NotImplementedError
 
 class FileStore(StoreBase):
-	def __init__(self,directory):
-		self.__directory = directory
-		
 	def get(self,key,value=None):
-		path = '%s/%s'%(self.__directory,key)
+		directory = self.config()['file_directory']
+		path = '%s/%s'%(directory,key)
 		if not os.path.isfile(path):
 			return value
 		f = open(path,'r')
@@ -51,18 +52,20 @@ class FileStore(StoreBase):
 		return c
 		
 	def __setitem__(self, key, value):
+		directory = self.config()['file_directory']
 		try:
-			os.makedirs( self.__directory )
+			os.makedirs( directory )
 		except:
 			pass
 		
-		path = '%s/%s'%(self.__directory,key)
+		path = '%s/%s'%(directory,key)
 		fout = open( path ,'w')
 		fout.write( value )
 		fout.close()
 		
 	def __contains__(self,key):
-		path = '%s/%s'%(self.__directory,key)
+		directory = self.config()['file_directory']
+		path = '%s/%s'%(directory,key)
 		return os.path.isfile(path)
 
 class MemStore(StoreBase):
@@ -85,11 +88,8 @@ class MemStore(StoreBase):
 			return value
 		
 	def __setitem__(self, key, value):
-		# now = time.time()
-		# value['attime'] = now
 		s = self.mc.get(key)
-		# self.mc.set(key, value, web.config.session_parameters['timeout'])
-		self.mc.set( key, value, 3600*24 )
+		self.mc.set( key, value, self.config()['timeout'] )
 		
 	def __delitem__(self, key):
 		self.mc.delete(key)
@@ -109,7 +109,7 @@ class Session(object):
 		aRequest = self.__application.request()
 		self.__store = StoreBase.create(
 			store_type = config.config['session']['store_type'],
-			store_args = config.config['session']['store_args']
+			session_config = config.config['session']
 		)
 		
 		# read session id from cookie
@@ -123,22 +123,18 @@ class Session(object):
 		# need recreate data
 		if self.__session_id:
 			rawdata = self.__store.get(self.__session_id)
-			print "rawdata:",rawdata
 			if rawdata is None:
-				print "rawdata is None. recreate"
 				self.__initData(
 					aRequest.remoteAddress(),
 					config.config['session']['timeout']
 				)
 			else:
 				self.__data = self.__decodeData(rawdata)
-				print "decode data:",self.__data
 			
 			# validate address
 			# check expired time
 			if aRequest.remoteAddress() != self.get('_remote_address') \
 					or time.time() > self.get('_expired'):
-				print "address failed or expired. init data"
 				self.__initData(
 					aRequest.remoteAddress(),
 					config.config['session']['timeout']
@@ -146,7 +142,6 @@ class Session(object):
 			
 		# recreate session_id
 		if self.__session_id is None:
-			print "session id is None.recreate id and data"
 			self.__session_id = self.__recreate_session_id(
 				aRequest.remoteAddress(),
 				config.config['session']['secret_key']
@@ -156,7 +151,6 @@ class Session(object):
 				aRequest.remoteAddress(),
 				config.config['session']['timeout']
 			)
-			print "data:",self.__data
 		
 	def save(self):
 		rawdata = self.__encodeData()
