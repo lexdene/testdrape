@@ -2,7 +2,7 @@
 
 import time,os,re
 
-import frame
+import frame,widget
 import drape
 import drape.validate
 import markdown
@@ -24,6 +24,13 @@ class List(frame.DefaultFrame):
 			where['pn.pnum'] = pnum
 		
 		aTopicModel = drape.LinkedModel('discuss_topic')
+		
+		# pager
+		page = drape.util.toInt(aParams.get('page',0))
+		count = aTopicModel.count()
+		aPager = widget.Pager(total_count=count,current_page=page)
+		self.setVariable('page',aPager.run())
+		
 		aTopicList = aTopicModel \
 			.alias('dt') \
 			.join('problem_num','pn','dt.pid = pn.pid') \
@@ -36,6 +43,7 @@ class List(frame.DefaultFrame):
 			.field('COUNT(count_dr.id)') \
 			.reflectField(['dt','pn','topic_ui','last_dr','last_dr_ui']) \
 			.order('CASE WHEN last_dr.id is NULL THEN dt.ctime ELSE last_dr.ctime END DESC') \
+			.limit(**aPager.limit()) \
 			.select()
 		
 		for aTopic in aTopicList:

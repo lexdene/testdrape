@@ -1,0 +1,17 @@
+<div class="pager">
+	<div class="buttons">
+		{% if current_page > 0 %}
+			<a href='?page={{current_page-1}}'>上一页</a>
+		{% else %}
+			<span>上一页</span>
+		{% endif %}
+		{% if current_page < page_count -1 %}
+			<a href='?page={{current_page+1}}'>下一页</a>
+		{% else %}
+			<span>下一页</span>
+		{% endif %}
+	</div>
+	<div class="hints">
+		共{{total_count}}个，当前第{{current_page + 1}}/{{page_count}}页
+	</div>
+</div>

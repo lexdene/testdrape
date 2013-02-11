@@ -155,9 +155,6 @@ class NestingController(ViewController):
 		
 		return self.render()
 		
-	def beforeChildProcess(self):
-		pass
-		
 	def initRes(self):
 		g = self.globalVars()
 		if 'res' not in g:
