@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # system import
-import os,sys,cgi,traceback
+import os,sys,cgi,traceback,time
 
 # drape import
-import controller,db,config
+import controller,db,config,debug,util
 import request
 import response
 import cookie
@@ -60,6 +60,7 @@ class Application(object):
 			
 			self.__request.run(params,environ)
 			
+			debug.debug(self.__request.requestUri())
 			if self.__request.requestUri() == self.__request.rootPath():
 				self.__response.setStatus('301 Moved Permanently')
 				self.response().addHeader('Location',self.__request.rootPath() + '/' )
@@ -125,6 +126,20 @@ class Application(object):
 		
 	def saveUploadFile(self,fileobj,filepath):
 		pass
+		
+	def log(self,type,data):
+		dirpath = 'data/log'
+		if not os.path.isdir(dirpath):
+			os.makedirs(dirpath)
+		filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
+		f = open( filepath ,'a')
+		f.write(
+			'[%s] [%s] %s\n'%(
+				util.timeStamp2Str( time.time() ),
+				type,
+				str(data)
+			)
+		)
 
 class WsgiApplication(Application):
 	def __init__(self):
@@ -157,6 +172,8 @@ class WsgiApplication(Application):
 			self.response().addHeader('Content-Length',str(len(ret)))
 		else:
 			ret = str(ret)
+		
+		debug.debug(self.response().headers())
 		
 		write = start_response(
 			self.response().status(),
@@ -217,3 +234,10 @@ class SaeApplication(WsgiApplication):
 		ob = sae.storage.Object(fileobj.file.read())
 		domain_name = config.config['sae_storage']['domain_name']
 		return s.put(domain_name, filepath, ob)
+		
+	def log(self,type,data):
+		print '[%s] [%s] %s'%(
+				util.timeStamp2Str( time.time() ),
+				type,
+				str(data)
+			)
