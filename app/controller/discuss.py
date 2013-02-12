@@ -4,7 +4,6 @@ import time,os,re
 
 import frame,widget
 import drape
-import drape.validate
 import markdown
 
 def emoji(text,imgbasepath):

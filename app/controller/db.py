@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import drape.db
+import drape
 import frame
 
 class CreateTables(frame.DefaultFrame):
@@ -104,7 +104,7 @@ class CreateTables(frame.DefaultFrame):
 				)ENGINE=MyISAM DEFAULT CHARSET=utf8'''
 		}
 		result = dict()
-		aDb = drape.db.Db.singleton()
+		aDb = drape.application.Application.singleton().db()
 		for tableName,sql in tables.iteritems():
 			res = aDb.execute(sql)
 			result[tableName] = {

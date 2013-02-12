@@ -2,7 +2,6 @@
 
 import frame
 import drape
-import drape.validate
 import validatecode
 
 common_validates = dict(
