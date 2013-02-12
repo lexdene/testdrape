@@ -132,7 +132,7 @@ class Topic(frame.DefaultFrame):
 		def transText(text):
 			if text is None:
 				return ''
-			text = markdown.markdown(text)
+			text = markdown.markdown(text,safe_mode='escape')
 			imgbasepath = self.request().rootPath()+'/static/emoji'
 			text = emoji(text,imgbasepath)
 			return text

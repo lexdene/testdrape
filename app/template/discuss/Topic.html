@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<div class="common_layout_column floor_right_column">
-				<div class="floor_text">{{topicInfo['text']|e}}</div>
+				<div class="floor_text">{{ transText(topicInfo['text']) }}</div>
 				<div class="floor_right_bottom">
 					<div class="floor_count">1楼</div>
 					<div class="floor_time">{{ timestr(topicInfo['ctime']) }}</div>
@@ -50,7 +50,7 @@
 							<span>reply to:</span>
 							<span>
 								<a href="{{ROOT}}/user/MainPage/id/{{reply['rtrui.uid']}}">
-									{{reply['rtrui.nickname']}}
+									{{reply['rtrui.nickname']|e}}
 								</a>
 							</span>
 							<div class="content"> {{ transText(reply['rtr.text']) }} </div>
@@ -59,7 +59,7 @@
 							</div>
 						</div>
 					{% endif %}
-					<div class="floor_text">{{ transText(reply['text']|e) }}</div>
+					<div class="floor_text">{{ transText(reply['text']) }}</div>
 					<div class="floor_right_bottom">
 						<div class="floor_count">{{ reply['floor'] }}楼</div>
 						<div class="floor_time">{{ timestr(reply['ctime']) }}</div>
