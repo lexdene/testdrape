@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os,hashlib
-
-import frame,drape.db
+import drape
+import frame
 
 class TestFrame(drape.NestingController):
 	def __init__(self,path):
@@ -45,7 +45,7 @@ class IterFile(TestFrame):
 
 class Db(TestFrame):
 	def process(self):
-		aDb = drape.db.Db.singleton()
+		aDb = drape.application.Application.singleton().db()
 		aParams = self.params()
 		res = aDb.query(
 			'select * from userinfo where uid>%(uid)s',
@@ -122,6 +122,8 @@ class SetSession(TestFrame):
 				self.setVariable('msg',u'key值长度过长')
 			elif len(value) > 20:
 				self.setVariable('msg',u'value值长度过长')
+			elif key in ('uid',):
+				self.setVariable('msg',u'permission denied')
 			else:
 				self.setVariable('msg','success')
 				aSession.set(key,value)
