@@ -57,7 +57,8 @@ class Application(object):
 		请求级清理函数，
 		这函数在每次请求结束的时候都会执行一次
 		'''
-		self.__logFile.close()
+		if not self.__logFile is None:
+			self.__logFile.close()
 		
 	def start(self):
 		self.run()
