@@ -156,7 +156,9 @@ class Topic(frame.DefaultFrame):
 			return
 		
 		self.setVariable('topicInfo',aTopicInfo)
-		self.setTitle(aTopicInfo['title'])
+		
+		import cgi
+		self.setTitle( cgi.escape(aTopicInfo['title']) )
 		
 		aReplyModel = drape.LinkedModel('discuss_reply')
 		aReplyIter = aReplyModel \
