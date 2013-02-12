@@ -47,9 +47,17 @@ class Application(object):
 		self.__session = None
 		self.__cookie = cookie.Cookie(self)
 		self.__db = None
+		self.__logFile = None
 		
 		g = controller.Controller.globalVars()
 		g.clear()
+		
+	def _cleanup(self):
+		'''
+		请求级清理函数，
+		这函数在每次请求结束的时候都会执行一次
+		'''
+		self.__logFile.close()
 		
 	def start(self):
 		self.run()
@@ -94,7 +102,6 @@ class Application(object):
 			for i in env:
 				body += "%s => %s\n"%(i,env[i])
 			
-			print body
 			self.__response.setBody(body)
 			self.__response.setStatus('500 Internal Server Error')
 		
@@ -128,12 +135,14 @@ class Application(object):
 		pass
 		
 	def log(self,type,data):
-		dirpath = 'data/log'
-		if not os.path.isdir(dirpath):
-			os.makedirs(dirpath)
-		filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
-		f = open( filepath ,'a')
-		f.write(
+		if self.__logFile is None:
+			dirpath = 'data/log'
+			if not os.path.isdir(dirpath):
+				os.makedirs(dirpath)
+			filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
+			self.__logFile = open( filepath ,'a')
+		
+		self.__logFile.write(
 			'[%s] [%s] %s\n'%(
 				util.timeStamp2Str( time.time() ),
 				type,
@@ -180,6 +189,7 @@ class WsgiApplication(Application):
 			self.response().headers()
 		)
 		
+		self._cleanup()
 		return [ret]
 		
 	def saveUploadFile(self,fileobj,filepath):
@@ -202,12 +212,6 @@ class SaeApplication(WsgiApplication):
 		
 	def edconfig(self):
 		import sae.const
-		# sae.const.MYSQL_DB      # 数据库名
-		# sae.const.MYSQL_USER    # 用户名
-		# sae.const.MYSQL_PASS    # 密码
-		# sae.const.MYSQL_HOST    # 主库域名（可读写）
-		# sae.const.MYSQL_PORT    # 端口，类型为，请根据框架要求自行转换为int
-		# sae.const.MYSQL_HOST_S  # 从库域名（只读）
 		config={
 			'db' : {
 				'dbname' : sae.const.MYSQL_DB ,
@@ -225,11 +229,7 @@ class SaeApplication(WsgiApplication):
 		
 	def saveUploadFile(self,fileobj,filepath):
 		import sae.storage
-		# 初始化一个Storage客户端。
 		s = sae.storage.Client()
-		# LIST所有的domain
-		# s.list_domain()
-		# PUT object至某个domain下面，put操作返回object的public url。
 		fileobj.file.seek(0)
 		ob = sae.storage.Object(fileobj.file.read())
 		domain_name = config.config['sae_storage']['domain_name']

@@ -5,7 +5,6 @@ class Response(object):
 		self.__body = ''
 		
 	def setStatus(self,status):
-		# raise Exception(status)
 		self.__status = status
 		
 	def addHeader(self,key,value):
@@ -22,9 +21,3 @@ class Response(object):
 		
 	def body(self):
 		return self.__body
-		
-	def response(self):
-		for h in self.__headers:
-			print "%s: %s"%(h[0],h[1])
-		print ""
-		print self.__body

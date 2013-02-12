@@ -7,7 +7,6 @@ def validate_params(params,validateList):
 		key = validateItem['key']
 		name = validateItem['name']
 		value = params.get(key)
-		print key,name,value
 		for validate in validateItem['validates']:
 			method = validate[0]
 			if 'notempty' == method:

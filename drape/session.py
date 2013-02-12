@@ -134,7 +134,6 @@ class Session(object):
 		
 		# protection against session_id tampering
 		if self.__session_id and not self.__valid_session_id(self.__session_id):
-			print "valid session id failed"
 			self.__session_id = None
 		
 		# need recreate data
