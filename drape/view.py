@@ -17,7 +17,6 @@ class View(object):
 				output_encoding='utf-8',
 				encoding_errors='replace'
 			)
-			#mytemplate = Template(filename='app/template%s.html'%self.__path)
 			mytemplate = mylookup.get_template( template_filepath )
 			return mytemplate.render_unicode(**vardict)
 		elif 'jinja2' == template_type:

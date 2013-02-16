@@ -2,6 +2,9 @@ pre{
 	margin: 0;
 	padding: 0;
 }
+html{
+	overflow-y: scroll;
+}
 .common_layout_column{
 	float: left;
 }
