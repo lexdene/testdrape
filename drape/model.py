@@ -122,14 +122,8 @@ class LinkedModel(object):
 		params = dict()
 		for column,value in data.iteritems():
 			columnList.append(column)
-			if isinstance(value, (int, long, float)):
-				valueList.append('%%(%s)s'%column)
-				params[column] = value
-			elif isinstance(value,basestring):
-				valueList.append("%%(%s)s"%column)
-				params[column] = value
-			else:
-				raise TypeError('%s , %s'%(value,type(value).__name__))
+			valueList.append('%%(%s)s'%column)
+			params[column] = value
 		
 		queryString = "insert into %(table)s (%(columns)s) values(%(values)s)"%{
 			'table' : self.__tableName,
@@ -145,13 +139,10 @@ class LinkedModel(object):
 	def update(self,data):
 		dataString = ''
 		dataStringPartedList = list()
+		params = dict()
 		for k,v in data.iteritems():
-			if isinstance(v,(int,long,float)):
-				dataStringPartedList.append('%s=%s'%(k,v))
-			elif isinstance(v,basestring):
-				dataStringPartedList.append('%s="%s"'%(k,v))
-			else:
-				raise TypeError('%s , %s'%(value,type(value).__name__))
+			dataStringPartedList.append('%s=%%(%s)s'%(k,k))
+			params[k] = v
 		dataString = ' ,'.join(dataStringPartedList)
 		
 		queryString = "update %(table)s set %(data)s where %(where)s"%dict(
@@ -162,7 +153,7 @@ class LinkedModel(object):
 		
 		self.__clearLinkedData()
 		
-		n = self.__db.execute(queryString)
+		n = self.__db.execute(queryString,params)
 		self.__db.commit()
 		
 		return n
