@@ -21,7 +21,7 @@
 		});
 		var dialog = jq('#dialog').dialog();
 		jq('#upload_avatar_btn').click(function(){
-			jq('#dialog').find('iframe').attr('src','../common/UploadImage');
+			jq('#dialog').find('iframe').attr('src','../common/UploadImage?accept=image/gif,image/jpeg,image/png');
 			dialog.show();
 		});
 		jq('#dialog').find('.close_button').click(function(){
