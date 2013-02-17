@@ -88,6 +88,8 @@ class LinkedModel(object):
 		)
 		
 		paramsData = self.__getLinkedData('params')
+		if paramsData is None:
+			paramsData = list()
 		self.__clearLinkedData()
 		return self.__db.query(queryString,dict(paramsData))
 		
@@ -110,6 +112,8 @@ class LinkedModel(object):
 		)
 		
 		paramsData = self.__getLinkedData('params')
+		if paramsData is None:
+			paramsData = list()
 		self.__clearLinkedData()
 		aIter = self.__db.query(queryString,dict(paramsData))
 		return aIter[0]['count(*)']
@@ -149,6 +153,8 @@ class LinkedModel(object):
 		)
 		
 		paramsData = self.__getLinkedData('params')
+		if paramsData is None:
+			paramsData = list()
 		self.__clearLinkedData()
 		
 		n = self.__db.execute(queryString,dict(paramsData))
