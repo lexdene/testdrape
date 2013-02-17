@@ -40,12 +40,8 @@ class LinkedModel(object):
 		if isinstance(w,basestring):
 			self.__appendLinkedData('where',w)
 		elif isinstance(w,dict):
-			for i in w:
-				v = w[i]
-				if isinstance(v,(int,long,float)):
-					self.__appendLinkedData('where','%s = %d'%(i,v))
-				else:
-					self.__appendLinkedData('where','%s = "%s"'%(i,v))
+			for i,v in w.iteritems():
+				self.__appendLinkedData('where',(i,v))
 		return self
 		
 	def order(self,w):
@@ -91,8 +87,9 @@ class LinkedModel(object):
 			limitString
 		)
 		
+		paramsData = self.__getLinkedData('params')
 		self.__clearLinkedData()
-		return self.__db.query(queryString)
+		return self.__db.query(queryString,dict(paramsData))
 		
 	def find(self):
 		res = self.limit(1).select()
@@ -112,8 +109,9 @@ class LinkedModel(object):
 			whereString
 		)
 		
+		paramsData = self.__getLinkedData('params')
 		self.__clearLinkedData()
-		aIter = self.__db.query(queryString)
+		aIter = self.__db.query(queryString,dict(paramsData))
 		return aIter[0]['count(*)']
 		
 	def insert(self,data):
@@ -139,10 +137,9 @@ class LinkedModel(object):
 	def update(self,data):
 		dataString = ''
 		dataStringPartedList = list()
-		params = dict()
 		for k,v in data.iteritems():
 			dataStringPartedList.append('%s=%%(%s)s'%(k,k))
-			params[k] = v
+			self.__appendLinkedData('params',(k,v))
 		dataString = ' ,'.join(dataStringPartedList)
 		
 		queryString = "update %(table)s set %(data)s where %(where)s"%dict(
@@ -151,9 +148,10 @@ class LinkedModel(object):
 			where = self.__buildWhereString()
 		)
 		
+		paramsData = self.__getLinkedData('params')
 		self.__clearLinkedData()
 		
-		n = self.__db.execute(queryString,params)
+		n = self.__db.execute(queryString,dict(paramsData))
 		self.__db.commit()
 		
 		return n
@@ -317,7 +315,15 @@ class LinkedModel(object):
 	def __buildWhereString(self):
 		whereData = self.__getLinkedData('where')
 		if whereData:
-			whereString = "(" + " ) AND \n (".join( whereData ) + ")"
+			whereStringPartedList = list()
+			for w in whereData:
+				if isinstance(w,basestring):
+					whereStringPartedList.append( w )
+				elif isinstance(w,tuple):
+					key,value = w
+					whereStringPartedList.append( "%s = %%(%s)s"%(key,key) )
+					self.__appendLinkedData('params',w)
+			whereString = "(" + " ) AND \n (".join( whereStringPartedList ) + ")"
 		else:
 			whereString = '1'
 		return whereString
