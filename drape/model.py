@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import db
 import application
 
 class LinkedModel(object):
 	__cache = {}
 	def __init__(self,sTableName):
 		self.__tableName = sTableName
-		# self.__db = db.Db.singleton()
 		self.__db = application.Application.singleton().db()
 		
 		# linked data
@@ -294,21 +292,23 @@ class LinkedModel(object):
 		
 	def __buildTableString(self):
 		aliasData = self.__getLinkedData('alias')
+		tableName = self.__db.tablePrefix() + self.__tableName
 		if aliasData:
-			tableString = '`%s` as %s'%(self.__tableName,aliasData)
+			tableString = '`%s` as %s'%(tableName,aliasData)
 		else:
-			tableString = '`%s`'%(self.__tableName)
+			tableString = '`%s`'%(tableName)
 		
 		return tableString
 		
 	def __buildJoinString(self):
 		joinStringPartedList = list()
 		joinData = self.__getLinkedData('join')
+		tablePrefix = self.__db.tablePrefix()
 		if joinData:
 			for join in joinData:
 				joinStringParted = '%s join `%s`'%(
 					join['jointype'],
-					join['jointable'],
+					tablePrefix+join['jointable'],
 				)
 				if join['alias']:
 					joinStringParted = joinStringParted + ' as %s'%join['alias']

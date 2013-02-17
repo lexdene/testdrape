@@ -9,6 +9,7 @@ config={
 		'host' : 'localhost' ,
 		'port' : 1433 ,
 		'charset' : 'utf8' ,
+		'tablePrefix' : '',
 	},
 	'session' : {
 		'store_type' : 'file',

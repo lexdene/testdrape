@@ -10,6 +10,7 @@ class ConfigError(DbError):
 class Db(object):
 	def __init__(self):
 		dbconfig = config.config['db']
+		self.__config = dbconfig
 		if dbconfig['driver'] == 'mysql':
 			import MySQLdb
 			self.__driver = MySQLdb
@@ -23,6 +24,9 @@ class Db(object):
 			)
 		else:
 			raise ConfigError('no such driver : %s'%dbconfig['driver'])
+		
+	def tablePrefix(self):
+		return self.__config['tablePrefix']
 		
 	def _conn(self):
 		return self.__conn

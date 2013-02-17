@@ -1,8 +1,8 @@
 <div class="db_createtables">
-	{% for tableName in sql %}
+	{% for tableName in result %}
 		<div>
 			<div>{{tableName}}</div>
-			<div>{{sql[tableName]}}</div>
+			<div>{{result[tableName]['sql']}}</div>
 			<div>{{result[tableName]['ret']}}</div>
 			<div>{{result[tableName]['error']}}</div>
 		</div>
