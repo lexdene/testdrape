@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # system import
-import os,sys,cgi,traceback,time
+import os,sys,cgi,traceback,time,logging
 
 # drape import
 import controller,db,config,debug,util
@@ -36,6 +36,16 @@ class Application(object):
 		这函数理论上讲应该仅在开机/启动服务器的时候执行一次，以后就不再执行了。
 		'''
 		config.update(self.edconfig())
+		
+		dirpath = 'data/log'
+		if not os.path.isdir(dirpath):
+			os.makedirs(dirpath)
+		filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
+		logging.basicConfig(
+			filename = filepath,
+			level = logging.DEBUG,
+			format = '[%(asctime)s] [%(levelname)s] %(message)s'
+		)
 		
 	def requestInit(self):
 		'''
@@ -136,20 +146,7 @@ class Application(object):
 		pass
 		
 	def log(self,type,data):
-		if self.__logFile is None:
-			dirpath = 'data/log'
-			if not os.path.isdir(dirpath):
-				os.makedirs(dirpath)
-			filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
-			self.__logFile = open( filepath ,'a')
-		
-		self.__logFile.write(
-			'[%s] [%s] %s\n'%(
-				util.timeStamp2Str( time.time() ),
-				type,
-				str(data)
-			)
-		)
+		logging.debug(data)
 
 class WsgiApplication(Application):
 	def __init__(self):
