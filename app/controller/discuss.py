@@ -133,7 +133,7 @@ class Topic(frame.DefaultFrame):
 			if text is None:
 				return ''
 			text = markdown.markdown(text,safe_mode='escape')
-			imgbasepath = self.request().rootPath()+'/static/emoji'
+			imgbasepath = 'https://a248.e.akamai.net/assets.github.com/images/icons/emoji'
 			text = emoji(text,imgbasepath)
 			return text
 		
