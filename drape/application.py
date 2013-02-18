@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # system import
-import os,sys,cgi,traceback,time,logging
+import os,sys,cgi,traceback,time
 
 # drape import
 import controller,db,config,debug,util
@@ -134,6 +134,18 @@ class Application(object):
 		pass
 		
 	def log(self,type,data):
+		if not hasattr(self,'__log'):
+			import logging
+			self.__log = logging
+			dirpath = 'data/log'
+			if not os.path.isdir(dirpath):
+				os.makedirs(dirpath)
+			filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
+			logging.basicConfig(
+				filename = filepath,
+				level = logging.DEBUG,
+				format = '[%(asctime)s] [%(levelname)s] %(message)s'
+			)
 		logging.debug(data)
 
 class WsgiApplication(Application):
@@ -143,19 +155,6 @@ class WsgiApplication(Application):
 		
 	def start(self):
 		return
-		
-	def systemInit(self):
-		super(WsgiApplication,self).systemInit()
-		
-		dirpath = 'data/log'
-		if not os.path.isdir(dirpath):
-			os.makedirs(dirpath)
-		filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
-		logging.basicConfig(
-			filename = filepath,
-			level = logging.DEBUG,
-			format = '[%(asctime)s] [%(levelname)s] %(message)s'
-		)
 		
 	def __call__(self,environ, start_response):
 		params = dict(
