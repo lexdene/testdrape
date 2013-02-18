@@ -37,16 +37,6 @@ class Application(object):
 		'''
 		config.update(self.edconfig())
 		
-		dirpath = 'data/log'
-		if not os.path.isdir(dirpath):
-			os.makedirs(dirpath)
-		filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
-		logging.basicConfig(
-			filename = filepath,
-			level = logging.DEBUG,
-			format = '[%(asctime)s] [%(levelname)s] %(message)s'
-		)
-		
 	def requestInit(self):
 		'''
 		请求级初始化，
@@ -57,7 +47,6 @@ class Application(object):
 		self.__session = None
 		self.__cookie = cookie.Cookie(self)
 		self.__db = None
-		self.__logFile = None
 		
 		g = controller.Controller.globalVars()
 		g.clear()
@@ -67,8 +56,7 @@ class Application(object):
 		请求级清理函数，
 		这函数在每次请求结束的时候都会执行一次
 		'''
-		if not self.__logFile is None:
-			self.__logFile.close()
+		pass
 		
 	def start(self):
 		self.run()
@@ -155,6 +143,19 @@ class WsgiApplication(Application):
 		
 	def start(self):
 		return
+		
+	def systemInit(self):
+		super(WsgiApplication,self).systemInit()
+		
+		dirpath = 'data/log'
+		if not os.path.isdir(dirpath):
+			os.makedirs(dirpath)
+		filepath = dirpath + '/%s.log'%time.strftime('%Y-%m-%d',time.localtime())
+		logging.basicConfig(
+			filename = filepath,
+			level = logging.DEBUG,
+			format = '[%(asctime)s] [%(levelname)s] %(message)s'
+		)
 		
 	def __call__(self,environ, start_response):
 		params = dict(
