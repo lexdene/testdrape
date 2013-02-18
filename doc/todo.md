@@ -23,3 +23,4 @@
 ## 上传文件扩展名
 	done
 ## debug模块改为log模块，application的log函数返回log对象。构造函数打开文件，析构函数关闭文件。
+## get/post参数，在验证之后，可以自动提取并直接传递给model。
