@@ -146,7 +146,16 @@ class Application(object):
 				level = logging.DEBUG,
 				format = '[%(asctime)s] [%(levelname)s] %(message)s'
 			)
-		logging.debug(data)
+		if 'debug' == type:
+			logging.debug(data)
+		elif 'info' == type:
+			logging.info(data)
+		elif 'warning' == type:
+			logging.warning(data)
+		elif 'error' == type:
+			logging.error(data)
+		elif 'critical' == type:
+			logging.critical(data)
 
 class WsgiApplication(Application):
 	def __init__(self):
