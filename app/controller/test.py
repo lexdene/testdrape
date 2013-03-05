@@ -131,3 +131,8 @@ class SetSession(TestFrame):
 			self.setVariable('msg','no')
 		self.setVariable('key',key)
 		self.setVariable('value',value)
+
+class TestSaeConst(TestFrame):
+	def process(self):
+		import sae.const
+		self.setVariable('sae',str(sae.const))
