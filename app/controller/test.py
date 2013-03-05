@@ -136,3 +136,4 @@ class TestSaeConst(TestFrame):
 	def process(self):
 		import sae.const
 		self.setVariable('sae',str(sae.const))
+		self.setVariable('sae_dir',dir(sae.const))
