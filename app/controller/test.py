@@ -135,5 +135,5 @@ class SetSession(TestFrame):
 class TestSaeConst(TestFrame):
 	def process(self):
 		import sae.const
-		self.setVariable('sae',str(sae.const))
-		self.setVariable('sae_dir',dir(sae.const))
+		self.setVariable('sae_dir',dir(sae))
+		self.setVariable('sae_const_dir',dir(sae.const))
