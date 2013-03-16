@@ -32,7 +32,7 @@ class HtmlBody(drape.NestingController):
 		self.setVariable('reslist',reversed( g['res'] ))
 		
 		# title
-		sitename = u'JDMD Online Judge'
+		sitename = u'testdrape'
 		subtitle = u'无标题'
 		if 'title' in g:
 			subtitle = g['title']
