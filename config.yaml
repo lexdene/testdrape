@@ -1,5 +1,9 @@
-name: testdrape
-version: 1
-handle:
-- rewrite: if ( path ~ "google72b20c9b0c5410e5" ) goto "/static/google72b20c9b0c5410e5.html"
-- rewrite: if(!is_dir() && !is_file()) goto "index.php?%{QUERY_STRING}"
+handlers:
+- url: /robots.txt
+  static_path: static/robots.txt
+
+- url: /favicon.ico
+  static_path: static/image/breaking.ico
+
+- url: /google72b20c9b0c5410e5.html
+  static_path: static/google72b20c9b0c5410e5.html
