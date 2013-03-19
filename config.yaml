@@ -1,2 +1,2 @@
 handle:
-- rewrite:  if ( !is_dir() && !is_file() && path ~ "/google72b20c9b0c5410e5.html" ) goto "/static/google72b20c9b0c5410e5.html"
+- rewrite:  if ( path ~ "^google72b20c9b0c5410e5.html$" ) goto "/static/google72b20c9b0c5410e5.html"
