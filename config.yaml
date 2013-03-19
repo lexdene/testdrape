@@ -1,4 +1,7 @@
 handlers:
+- url: /static/
+  static_path: static
+
 - url: /robots.txt
   static_path: static/robots.txt
 
