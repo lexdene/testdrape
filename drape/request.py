@@ -56,7 +56,7 @@ class Request(object):
 		self.__cookie = params.get('cookie')
 		self.__remote_address = params.get('remote_address')
 		self.__request_uri = env.get('REQUEST_URI')
-		self.__referrer = env.get('REFERRER')
+		self.__referrer = env.get('HTTP_REFERER')
 		
 	def urlPath(self):
 		return self.__urlPath
