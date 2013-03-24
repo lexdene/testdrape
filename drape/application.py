@@ -67,8 +67,9 @@ class Application(object):
 			
 			self.__request.run(params,environ)
 			
-			debug.debug("uri:%s ip:%s refer:%s"%(
+			debug.debug("uri:%s urlpath:%s ip:%s refer:%s"%(
 				self.__request.requestUri(),
+				self.__request.urlPath(),
 				self.__request.remoteAddress(),
 				self.__request.referrer()
 			))
