@@ -3,6 +3,9 @@ class Request(object):
 		self.__controllerPath = None
 		
 	def run(self,params,env):
+		import debug
+		debug.debug(params)
+		debug.debug(env)
 		# url path
 		self.__urlPath = params.get('path')
 		qs = env.get('QUERY_STRING')
