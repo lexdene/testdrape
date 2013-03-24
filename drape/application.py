@@ -71,7 +71,7 @@ class Application(object):
 				self.__request.requestUri(),
 				self.__request.remoteAddress(),
 				self.__request.referrer()
-			)
+			))
 			if self.__request.requestUri() == self.__request.rootPath():
 				self.__response.setStatus('301 Moved Permanently')
 				self.response().addHeader('Location',self.__request.rootPath() + '/' )
